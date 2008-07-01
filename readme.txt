@@ -9,7 +9,7 @@ Automatically append the next page of posts (via AJAX) to your page when a user 
 
 == Description ==
 
-Infinite Scroll adds the following functionality to your wordpress installation: **When a user scrolls towards the bottom of the page, the next page of posts is automatically retrieved and appended**. This means they never need to click "Next Page", which ** *dramatically increases stickiness* **.
+Infinite Scroll adds the following functionality to your wordpress installation: **When a user scrolls towards the bottom of the page, the next page of posts is automatically retrieved and appended**. This means they never need to click "Next Page", which *dramatically increases stickiness*.
 
 Features:
 
