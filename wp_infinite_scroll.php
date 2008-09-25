@@ -414,12 +414,12 @@ $js_string = <<<EOT
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2/jquery.min.js"></script>
 <script type="text/javascript" src="$plugin_dir/infinite-scroll.js"></script>
 <script type="text/javascript" >
-$(function(){
+jQuery(function($){
   
   // Infinite Scroll plugin
   // copyright: Paul Irish & dirkhaim
   // license: cc-wrapped GPL : http://creativecommons.org/licenses/GPL/2.0/
-  jQuery('$content_selector').infinitescroll({
+  $('$content_selector').infinitescroll({
 		  debug           : $isAdmin,
 		  nextSelector    : "$next_selector",
 		  loadingImg      : "$loading_image",
