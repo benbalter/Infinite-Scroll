@@ -17,6 +17,7 @@ Features:
 *   Works on 80% of wordpress themes, with little or no configuration.
 *   Hackable source code to modify the behavior.
 *   Tested back to 2.3, but probably works on earlier versions.
+*   Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 

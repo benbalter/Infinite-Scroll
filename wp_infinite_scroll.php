@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Infinite Scroll
-Version: 1.0
+Version: 1.1.2008.09.25
 Plugin URI: http://www.infinite-scroll.com
 Description: Automatically loads the next page of posts into the bottom of the initial page. 
 Author: dirkhaim & Paul Irish
@@ -17,8 +17,7 @@ TODO:
     - deal with the IE6 + opacity + cleartype + <em> issue.
  - What error handling do we need?
  - Mention div#infscr-loading so users can customize look more.
- - option for changing loading text.
- - WTF? link and a pause button?
+ - Check if you're in a table and thus you can't add divs.
    
 */
 
@@ -411,31 +410,32 @@ function wp_inf_scroll_add()
 
 $js_string = <<<EOT
 
-<script type="text/javascript" >
 
-		// Infinite Scroll plugin
-		// copyright: Paul Irish & dirkhaim
-		// license: cc-wrapped GPL : http://creativecommons.org/licenses/GPL/2.0/
-		
-		var INFSCR_cfg = {
-		  isAdmin    : $isAdmin,
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2/jquery.min.js"></script>
+<script type="text/javascript" src="$plugin_dir/infinite-scroll.js"></script>
+<script type="text/javascript" >
+$(function(){
+  
+  // Infinite Scroll plugin
+  // copyright: Paul Irish & dirkhaim
+  // license: cc-wrapped GPL : http://creativecommons.org/licenses/GPL/2.0/
+  jQuery('$content_selector').infinitescroll({
+		  debug           : $isAdmin,
 		  nextSelector    : "$next_selector",
 		  loadingImg      : "$loading_image",
-	      text            : "$loading_text",
-	      donetext        : "$donetext",
+      text            : "$loading_text",
+      donetext        : "$donetext",
 		  navSelector     : "$navigation_selector",
 		  contentSelector : "$content_selector",
 		  postSelector    : "$post_selector",
 		  jsCalls         :  function(){ 
-		  					 	$js_calls 
-							}
-		}
-		
+		    
+$js_calls 
+
+                         }
+  });
+});		
 </script>	
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
-<script type="text/javascript" src="$plugin_dir/infinite-scroll.js"></script>
-
 	
 EOT;
 
