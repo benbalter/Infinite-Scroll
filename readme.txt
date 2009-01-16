@@ -2,7 +2,7 @@
 Contributors: paul.irish, dirkhaim
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.3
-Tested up to: 2.5.1
+Tested up to: 2.7
 Stable tag: trunk
 
 Automatically append the next page of posts (via AJAX) to your page when a user scrolls to the bottom. 
