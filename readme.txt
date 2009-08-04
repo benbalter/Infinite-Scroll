@@ -2,7 +2,7 @@
 Contributors: paul.irish, dirkhaim
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.3
-Tested up to: 2.7
+Tested up to: 2.8.3 
 Stable tag: trunk
 
 Automatically append the next page of posts (via AJAX) to your page when a user scrolls to the bottom. 
@@ -13,6 +13,7 @@ Infinite Scroll adds the following functionality to your wordpress installation:
 
 Features:
 
+*   Fully embraces progressive enhancement: RSS readers and js-off folks will be happy.
 *   Fully customizable by text, css, and images.
 *   Works on 80% of wordpress themes, with little or no configuration.
 *   Hackable source code to modify the behavior.

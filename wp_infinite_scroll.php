@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Infinite Scroll
-Version: 1.1.2008.09.25
+Version: 1.2.090804
 Plugin URI: http://www.infinite-scroll.com
 Description: Automatically loads the next page of posts into the bottom of the initial page. 
 Author: dirkhaim & Paul Irish
@@ -19,6 +19,7 @@ TODO:
  - What error handling do we need?
  - Mention div#infscr-loading so users can customize look more.
  - Check if you're in a table and thus you can't add divs.
+ - fix this: http://capacity.electronest.com/2009/01/13/fixing-url-path/
    
 */
 
@@ -45,7 +46,7 @@ define('key_infscr_next_selector'		, 'infscr_next_selector');
 define('infscr_state_default'			, infscr_config); 
 define('infscr_js_calls_default'		, '');
 
-$image_path = get_option('home').'/wp-content/plugins/infinite-scroll'.'/ajax-loader.gif';
+$image_path = get_option('siteurl').'/wp-content/plugins/infinite-scroll'.'/ajax-loader.gif';
 define('infscr_image_default'			, $image_path);
 define('infscr_text_default'			, '<em>Loading the next set of posts...</em>');
 define('infscr_donetext_default'			, '<em>Congratulations, you\'ve reached the end of the internet.</em>');
@@ -398,7 +399,7 @@ function wp_inf_scroll_add()
     return;
   }  
 	
-	$plugin_dir 		= get_option('home').'/wp-content/plugins/infinite-scroll';
+	$plugin_dir 		= get_option('siteurl').'/wp-content/plugins/infinite-scroll';
 	$js_calls		= stripslashes(get_option(key_infscr_js_calls));
 	$loading_image		= stripslashes(get_option(key_infscr_image));
 	$loading_text		= stripslashes(get_option(key_infscr_text));
@@ -412,15 +413,20 @@ function wp_inf_scroll_add()
 $js_string = <<<EOT
 
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2/jquery.min.js"></script>
-<script type="text/javascript" src="$plugin_dir/jquery.infinitescroll.js"></script>
+
+
+<script type="text/javascript"> 
+if (!(jQuery && jQuery.fn.jquery >= '1.2.6')){
+  document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+  window.INFSCR_jQ=true;
+}
+</script> 
+
+<script type="text/javascript" src="$plugin_dir/jquery.infinitescroll.min.js"></script>
 <script type="text/javascript" >
-var jQis = jQuery.noConflict();
-jQis(function($){
+(window.INFSCR_jQ ? jQuery.noConflict() : jQuery)(function($){
   
-  // Infinite Scroll plugin
-  // copyright: Paul Irish & dirkhaim
-  // license: cc-wrapped GPL : http://creativecommons.org/licenses/GPL/2.0/
+  // Infinite Scroll jQuery+Wordpress plugin
   $('$content_selector').infinitescroll({
     debug           : $isAdmin,
     nextSelector    : "$next_selector",
