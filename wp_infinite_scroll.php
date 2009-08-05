@@ -27,6 +27,7 @@ License   : http://creativecommons.org/licenses/GPL/2.0/
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/*
 BUGS:
  - javascript insertion doesnt work on themes: qwiilm!, craving4green, Lush, no limits, stripedplus
 
