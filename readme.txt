@@ -1,5 +1,5 @@
-an === Plugin Name ===
-Contributors: paul.irish, dirkhaim
+=== Plugin Name ===
+Contributors: paul.irish, dirkhaim, candrews
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.3
 Tested up to: 2.8.3 
