@@ -1,4 +1,4 @@
-=== Plugin Name ===
+an === Plugin Name ===
 Contributors: paul.irish, dirkhaim
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.3
@@ -45,4 +45,20 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 == Screenshots ==
 
 1. Loading the next set of posts
+
+== Changelog ==
+
+= 1.2 = 
+* 2009 August 4th
+* getoption(’siteurl’) fix made.
+* jQuery plugin version updated. many more options available.
+* Release backwards compatible
+
+= 1.1 =
+* 2008 September 25
+* JavaScript rewritten as a proper jQuery plugin.
+* Added animation
+
+= 1.0 =
+* June 29 - 1.0 release.
 
