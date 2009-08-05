@@ -2,13 +2,30 @@
 
 /*
 Plugin Name: Infinite Scroll
-Version: 1.2.090804
+Version: 1.3.090805
 Plugin URI: http://www.infinite-scroll.com
-Description: Automatically loads the next page of posts into the bottom of the initial page. 
+Description: Automatically loads the next page of posts into the bottom of the initial page.
 Author: dirkhaim & Paul Irish
 Author URI: http://www.infinite-scroll.com
 License   : http://creativecommons.org/licenses/GPL/2.0/
 
+/*
+    Copyright 2009  dirkhaim & Paul Irish
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 BUGS:
  - javascript insertion doesnt work on themes: qwiilm!, craving4green, Lush, no limits, stripedplus
@@ -19,8 +36,7 @@ TODO:
  - What error handling do we need?
  - Mention div#infscr-loading so users can customize look more.
  - Check if you're in a table and thus you can't add divs.
- - fix this: http://capacity.electronest.com/2009/01/13/fixing-url-path/
-   
+
 */
 
 // constants for enables/disabled
@@ -43,10 +59,10 @@ define('key_infscr_next_selector'		, 'infscr_next_selector');
 
 
 // defaults
-define('infscr_state_default'			, infscr_config); 
+define('infscr_state_default'			, infscr_config);
 define('infscr_js_calls_default'		, '');
 
-$image_path = get_option('siteurl').'/wp-content/plugins/infinite-scroll'.'/ajax-loader.gif';
+$image_path = plugins_url('/infinite-scroll/ajax-loader.gif');
 define('infscr_image_default'			, $image_path);
 define('infscr_text_default'			, '<em>Loading the next set of posts...</em>');
 define('infscr_donetext_default'			, '<em>Congratulations, you\'ve reached the end of the internet.</em>');
@@ -69,6 +85,7 @@ add_option(key_infscr_next_selector 	, infscr_next_selector_default		, 'Next pag
 
 
 // adding actions
+add_action('init'		, 'wp_inf_scoll_init');
 add_action('wp_footer'		, 'wp_inf_scroll_add');
 add_action('admin_menu'		, 'add_wp_inf_scroll_options_page');
 
@@ -81,12 +98,12 @@ add_action('admin_menu'		, 'add_wp_inf_scroll_options_page');
 // removed because it doesnt quite work..
 function is_frontpage()
 {
-	global $post; 
+	global $post;
 	$id = $post->ID;
 	$show_on_front = get_option('show_on_front');
 	$page_on_front = get_option('page_on_front');
 
-	if ($show_on_front == 'page' && $page_on_front == $id ) { return true; 	} 
+	if ($show_on_front == 'page' && $page_on_front == $id ) { return true; 	}
 	else { 	return false; 	}
 }
 */
@@ -104,7 +121,7 @@ if ( get_option(key_infscr_state) == infscr_state_default && !isset($_POST['subm
 }
 
 
-function add_wp_inf_scroll_options_page() 
+function add_wp_inf_scroll_options_page()
 {
 	global $wpdb;
 	add_options_page('Infinite Scroll Options', 'Infinite Scroll', 8, basename(__FILE__), 'wp_inf_scroll_options_page');
@@ -115,7 +132,7 @@ function wp_inf_scroll_options_page()
 	// if postback, store options
 	if (isset($_POST['info_update']))
 	{
-		check_admin_referer();	
+		check_admin_referer();
 
 		// update state
 		$infscr_state = $_POST[key_infscr_state];
@@ -175,7 +192,6 @@ function wp_inf_scroll_options_page()
 	No Javascript calls will be made after the content is added. This might cause errors in newly added content.
 	</div>
 <?php } ?>
-		  
   <style type="text/css">
     table.infscroll-opttable { width: 100%;}
     table.infscroll-opttable td, table.infscroll-opttable th { vertical-align: top; padding: 9px 4px; }
@@ -184,7 +200,7 @@ function wp_inf_scroll_options_page()
     table.infscroll-opttable dl { font-size: 90%; color: #666; margin-top: 5px; }
     table.infscroll-opttable dd { margin-bottom: 0 }
   </style>
-  
+
 	<h2>Infinite Scroll Options</h2>
 
 	  <p>All CSS selectors are found with the jQuery javascript library. See the <a href="http://docs.jquery.com/Selectors">jQuery CSS Selector documentation</a> for an overview of all possibilities. Single-quotes are not allowed&mdash;only double-quotes may be used.
@@ -365,6 +381,10 @@ function wp_inf_scroll_options_page()
 <?php
 }
 
+function wp_inf_scoll_init(){
+	wp_enqueue_script('jquery-infinitescroll',plugins_url('infinite-scroll/jquery.infinitescroll.min.js'),array('jquery'),'1.3');
+}
+
 function wp_inf_scroll_add()
 {
 	global $user_level;
@@ -397,9 +417,8 @@ function wp_inf_scroll_add()
   {
     echo '<!-- Infinite-Scroll not added for visitors (configuration state) -->';
     return;
-  }  
-	
-	$plugin_dir 		= get_option('siteurl').'/wp-content/plugins/infinite-scroll';
+  }
+
 	$js_calls		= stripslashes(get_option(key_infscr_js_calls));
 	$loading_image		= stripslashes(get_option(key_infscr_image));
 	$loading_text		= stripslashes(get_option(key_infscr_text));
@@ -412,20 +431,8 @@ function wp_inf_scroll_add()
 
 $js_string = <<<EOT
 
-
-
-
-<script type="text/javascript"> 
-if (!(window.jQuery && jQuery.fn.jquery >= '1.2.6')){
-  document.write(unescape("%3Cscript src='http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
-  window.INFSCR_jQ=true;
-}
-</script> 
-
-<script type="text/javascript" src="$plugin_dir/jquery.infinitescroll.min.js"></script>
 <script type="text/javascript" >
-(window.INFSCR_jQ ? jQuery.noConflict() : jQuery)(function($){
-  
+jQuery(document).ready(function($){
   // Infinite Scroll jQuery+Wordpress plugin
   $('$content_selector').infinitescroll({
     debug           : $isAdmin,
@@ -436,16 +443,15 @@ if (!(window.jQuery && jQuery.fn.jquery >= '1.2.6')){
     navSelector     : "$navigation_selector",
     contentSelector : "$content_selector",
     itemSelector    : "$post_selector"
-    },function(){ 
-$js_calls 
+    },function(){
+$js_calls
     });
-});		
-</script>	
-	
+});
+</script>
+
 EOT;
 
-	echo $js_string;	
-	
+	echo $js_string;
 	return;
 }
 

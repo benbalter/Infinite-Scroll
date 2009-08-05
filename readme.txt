@@ -1,9 +1,10 @@
 === Plugin Name ===
 Contributors: paul.irish, dirkhaim, candrews
+Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
 Requires at least: 2.3
 Tested up to: 2.8.3 
-Stable tag: trunk
+Stable tag: 1.3
 
 Automatically append the next page of posts (via AJAX) to your page when a user scrolls to the bottom. 
 
@@ -47,6 +48,10 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+
+= 1.3 =
+Use proper Wordpress function to register the javascript
+Use plugins_url to determine plugin url
 
 = 1.2 = 
 * 2009 August 4th
