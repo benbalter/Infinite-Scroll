@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Infinite Scroll
-Version: 1.3.090805
+Version: 1.3.090915
 Plugin URI: http://www.infinite-scroll.com
 Description: Automatically loads the next page of posts into the bottom of the initial page.
 Author: dirkhaim & Paul Irish
@@ -68,7 +68,7 @@ define('infscr_image_default'			, $image_path);
 define('infscr_text_default'			, '<em>Loading the next set of posts...</em>');
 define('infscr_donetext_default'			, '<em>Congratulations, you\'ve reached the end of the internet.</em>');
 define('infscr_content_selector_default'	, '#content');
-define('infscr_post_selector_default'		, '#content > div.post');
+define('infscr_post_selector_default'		, '#content  div.post');
 define('infscr_nav_selector_default'		, 'div.navigation');
 define('infscr_next_selector_default', 'div.navigation a:first');
 
@@ -439,7 +439,7 @@ jQuery(document).ready(function($){
     debug           : $isAdmin,
     nextSelector    : "$next_selector",
     loadingImg      : "$loading_image",
-    text            : "$loading_text",
+    loadingText     : "$loading_text",
     donetext        : "$donetext",
     navSelector     : "$navigation_selector",
     contentSelector : "$content_selector",
