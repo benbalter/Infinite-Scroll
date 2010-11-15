@@ -2,7 +2,7 @@
 /*!
 // Infinite Scroll jQuery plugin
 // copyright Paul Irish, licensed GPL & MIT
-// version 1.5.100504
+// version 1.5.101115
 
 // home and docs: http://www.infinite-scroll.com
 */
@@ -97,7 +97,9 @@
       props.loadingMsg
         .find('img').hide()
         .parent()
-          .find('div').html(opts.donetext).animate({opacity: 1},2000).fadeOut('normal');
+          .find('div').html(opts.donetext).animate({opacity: 1},2000, function() {
+            $(this).parent().fadeOut('normal');
+          });
       
       // user provided callback when done    
       opts.errorCallback();
@@ -121,21 +123,24 @@
         // we dont want to fire the ajax multiple times
         props.isDuringAjax = true; 
         
-        // show the loading message and hide the previous/next links
-        props.loadingMsg.appendTo( opts.contentSelector ).show();
-        $( opts.navSelector ).hide(); 
-        
-        // increment the URL bit. e.g. /page/3/
-        props.currPage++;
-        
-        debug('heading into ajax',path);
-        
-        // if we're dealing with a table we can't use DIVs
-        box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');  
-        frag = document.createDocumentFragment();
+        // show the loading message quickly
+        // then hide the previous/next links after we're
+        // sure the loading message was visible
+        props.loadingMsg.appendTo( opts.loadMsgSelector ).show(opts.loadingMsgRevealSpeed, function(){
+          $( opts.navSelector ).hide(); 
 
+          // increment the URL bit. e.g. /page/3/
+          props.currPage++;
 
-        box.load( path.join( props.currPage ) + ' ' + opts.itemSelector,null,loadCallback); 
+          debug('heading into ajax',path);
+
+          // if we're dealing with a table we can't use DIVs
+          box = $(opts.contentSelector).is('table') ? $('<tbody/>') : $('<div/>');  
+          frag = document.createDocumentFragment();
+
+          box.load( path.join( props.currPage ) + ' ' + opts.itemSelector,null,loadCallback);
+        });
+        
         
     }
     
@@ -147,10 +152,10 @@
               
         } else {
           
-            var children = box.children().get();
+            var children = box.children();
             
             // if it didn't return anything
-            if (children.length == 0){
+            if (children.length == 0 || children.hasClass('error404')){
               // fake an ajaxError so we can quit.
               return $.event.trigger( "ajaxError", [{status:404}] ); 
             } 
@@ -175,7 +180,7 @@
             // however we're now using a documentfragment, which doesnt havent parents or children,
             // so the context is the contentContainer guy, and we pass in an array
             //   of the elements collected as the first argument.
-            callback.call( $(opts.contentSelector)[0], children );
+            callback.call( $(opts.contentSelector)[0], children.get() );
         
             if (!opts.animate) props.isDuringAjax = false; // once the call is done, we can allow it again.
         }
@@ -197,7 +202,10 @@
     props.container   =  opts.localMode ? this : document.documentElement;
                           
     // contentSelector we'll use for our .load()
-    opts.contentSelector = opts.contentSelector || this; 
+    opts.contentSelector = opts.contentSelector || this;
+    
+    // loadMsgSelector - if we want to place the load message in a specific selector, defaulted to the contentSelector
+    opts.loadMsgSelector = opts.loadMsgSelector || opts.contentSelector;
     
     
     // get the relative URL - everything past the domain name.
@@ -265,6 +273,8 @@
                           donetext        : "<em>Congratulations, you've reached the end of the internet.</em>",
                           navSelector     : "div.navigation",
                           contentSelector : null,           // not really a selector. :) it's whatever the method was called on..
+                          loadMsgSelector : null,
+                          loadingMsgRevealSpeed : 'fast', // controls how fast you want the loading message to come in, ex: 'fast', 'slow', 200 (milliseconds)
                           extraScrollPx   : 150,
                           itemSelector    : "div.post",
                           animate         : false,
