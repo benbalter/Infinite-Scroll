@@ -1,10 +1,10 @@
-=== Plugin Name ===
-Contributors: paul.irish, dirkhaim
+﻿=== Plugin Name ===
+Contributors: paul.irish, dirkhaim, beaver6813
 Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
-Requires at least: 2.3
-Tested up to: 2.9.3
-Stable tag: 1.5
+Requires at least: 2.6
+Tested up to: 3.1.3
+Stable tag: 2.0b
 
 Automatically append the next page of posts (via AJAX) to your page when a user scrolls to the bottom. 
 
@@ -18,7 +18,7 @@ Features:
 *   Fully customizable by text, css, and images.
 *   Works on 80% of wordpress themes, with little or no configuration.
 *   Hackable source code to modify the behavior.
-*   Tested back to 2.3, but probably works on earlier versions.
+*   Tested back to 2.6, but probably works on earlier versions.
 *   Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
@@ -48,6 +48,16 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110617 = 
+* Updated core javascript to version 2.0b2.110617 (full revamp).
+* General cleanup/tidy of plugin itself.
+* Fixed bugs with numerical sub-domains (now uses site_url to determine path).
+* Supports archives, tags, searches.
+* Wider theme support.
+* Simplified plugin options page, added loading image upload ability, added option for debug mode.
+* Removed annoying reminder that showed on all admin pages.
+* Forces 404 header when no more posts are available.
+
 
 = 1.5.100504 =
 * New appending technique using document fragments.
