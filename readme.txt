@@ -48,6 +48,10 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110629 = 
+* Callback (custom javascript) fix.
+* IE9 binding bug fix.
+
 = 2.0b2.110628 = 
 * Modified the method used to determine the link paths (bug fix)
 

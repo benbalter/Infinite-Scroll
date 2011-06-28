@@ -3,7 +3,7 @@
 	Infinite Scroll
 	--------------------------------
 	+ https://github.com/paulirish/infinitescroll
-	+ version 2.0b2.110627
+	+ version 2.0b2.110628
 	+ Copyright 2011 Paul Irish & Luke Shumard
 	+ Licensed under the MIT license
 	
@@ -21,7 +21,7 @@
 	};
 	
 	$.infinitescroll.defaults = {
-		callback: function () { },
+		callback: undefined,
 		debug: false,
 		behavior: undefined,
 		binder: $(window), // used to cache the selector
@@ -151,7 +151,7 @@
 			};
 
             // callback loading
-            opts.callback = callback || function () { };
+            opts.callback = opts.callback || callback || function () { };
 
             this._setup();
 
@@ -239,7 +239,8 @@
             opts.isDone = true;
             opts.currPage = 1; // if you need to go back to this instance
             opts.isPaused = false;
-            this.binding('unbind');
+
+            this._binding('unbind');
 
         },
 
@@ -487,6 +488,7 @@
 	                switch (method) {
 
 	                    case 'html+callback':
+
 
 	                        instance._debug('Using HTML via .load() method');
 	                        box.load(desturl + ' ' + opts.itemSelector, null, function infscr_ajax_callback(responseText) {
