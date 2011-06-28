@@ -48,6 +48,9 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110628 = 
+* Modified the method used to determine the link paths (bug fix)
+
 = 2.0b2.110617 = 
 * Updated core javascript to version 2.0b2.110617 (full revamp).
 * General cleanup/tidy of plugin itself.
