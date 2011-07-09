@@ -48,6 +48,11 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110709 = 
+* FIX: Default options not being recursively copied.
+* Updated to new options layout.
+* Callback fix.
+
 = 2.0b2.110706 = 
 * HTTPS loading image fix.
 * Better debug support (switches between minified and non).
