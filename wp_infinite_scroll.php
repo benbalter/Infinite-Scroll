@@ -119,15 +119,6 @@ function wp_inf_scroll_setup_warning()
 	{
 	echo "<div id='infinitescroll-warning' class='updated fade'><p><strong>".__('Infinite Scroll is almost ready.')."</strong> ".sprintf(__('Please <a href="%1$s">review the configuration and set the state to ON</a>.'), "options-general.php?page=wp_infinite_scroll.php")."</p></div>\n";
 	}
-function wp_inf_scroll_getAttribute($attrib, $tag)
-	{
-		//get attribute from html tag
-		$re = '/' . preg_quote($attrib) . '=([\'"])?((?(1).+?|[^\s>]+))(?(1)\1)/is';
-		if (preg_match_all($re, $tag, $match)) {
-			return $match[2];
-		}
-			return false;
-	}
 /* 
 Stripped down version of get_pagenum_link() from link-template.php
 We use this to retrieve the URL array (seperated for placement of page number).
@@ -239,12 +230,14 @@ function wp_inf_scroll_init()
 			else
 				echo "<script type=\"text/javascript\" src=\"$plugin_dir/jquery.infinitescroll.min.js\"></script>";
 			echo "<script type=\"text/javascript\">
+					//We leave a function outside the infinite-scroll area so that it works with older jQuery versions
 					function infinite_scroll_callback() {
 						$js_calls	
 						}
 					jQuery(document).ready(function($) {
 					// Infinite Scroll jQuery+Wordpress plugin
-					jQuery('$content_selector').infinitescroll({
+					// Now we're inside, we should be able to use $ again
+					$('$content_selector').infinitescroll({
 						debug           : $debug,
 						loading			: {
 							img			: \"$loading_image\",
