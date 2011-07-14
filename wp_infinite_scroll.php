@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Infinite Scroll
-Version: 2.0b2.110709
+Version: 2.0b2.110713
 Plugin URI: http://www.infinite-scroll.com
 Description: Automatically loads the next page of posts into the bottom of the initial page. 
 Author: dirkhaim, Paul Irish, Beaver6813
@@ -61,6 +61,7 @@ add_option(key_infscr_viewed_options 	, false		, 'Ever Viewed Options Page');
 add_option(key_infscr_debug 	, 0		, 'Debug Mode');
 
 // adding actions
+add_action('template_redirect'	, 'wp_inf_scroll_pre_init');
 add_action('wp_head'		, 'wp_inf_scroll_init');
 add_action('admin_menu'		, 'add_wp_inf_scroll_options_page');
 add_action("wp"				, 'wp_inf_scroll_404');	
@@ -68,6 +69,29 @@ add_action("wp"				, 'wp_inf_scroll_404');
 if ( get_option(key_infscr_state) == infscr_state_default && get_option(key_infscr_viewed_options) == false && !isset($_POST['submit']) )
 	add_action('admin_notices', 'wp_inf_scroll_setup_warning');	
 
+function wp_inf_scroll_pre_init($wp)
+	{
+	global $wp_scripts;
+	//Now, some of the versions of jQuery bundled with Wordpress are monolithic.
+	//Lets check how old they are!
+	//Check if jQuery registered and its version. If not then we'll just pretend its
+	//an old version.
+	if(!empty($wp_scripts->registered['jquery']->ver))
+		$versioncode = explode(".",$wp_scripts->registered['jquery']->ver);
+	else
+		$versioncode = array(1,1,1);
+	//Lets check the main branch, we won't be *that* picky!
+	if($versioncode[1]<6)
+		{
+		wp_deregister_script( 'jquery' );
+		//IMPORTANT. Our versions of jQuery, like Wordpress, also append jQuery.noConflict();
+		if((stripslashes(get_option(key_infscr_debug))==1))
+			wp_register_script( 'jquery', plugins_url('infinite-scroll')."/js/jquery-1.6.2.js", array(), '1.6.2', false );
+		else
+			wp_register_script( 'jquery', plugins_url('infinite-scroll')."/js/jquery-1.6.2.min.js", array(), '1.6.2', false );
+		wp_enqueue_script( 'jquery' );	
+		}
+	}
 /*
 Because recently (3.0) WP doesn't always throw a 404 when posts aren't found.
 Infinite-Scroll relies on 404 errors to terminate.. so we'll force them. */
@@ -94,15 +118,6 @@ function wp_inf_scroll_error($message)
 function wp_inf_scroll_setup_warning() 
 	{
 	echo "<div id='infinitescroll-warning' class='updated fade'><p><strong>".__('Infinite Scroll is almost ready.')."</strong> ".sprintf(__('Please <a href="%1$s">review the configuration and set the state to ON</a>.'), "options-general.php?page=wp_infinite_scroll.php")."</p></div>\n";
-	}
-function wp_inf_scroll_getAttribute($attrib, $tag)
-	{
-		//get attribute from html tag
-		$re = '/' . preg_quote($attrib) . '=([\'"])?((?(1).+?|[^\s>]+))(?(1)\1)/is';
-		if (preg_match_all($re, $tag, $match)) {
-			return $match[2];
-		}
-			return false;
 	}
 /* 
 Stripped down version of get_pagenum_link() from link-template.php
@@ -209,16 +224,19 @@ function wp_inf_scroll_init()
 		$max_page 			= $wp_query->max_num_pages;
 		
 		if ( !$max_page || $max_page >= $nextpage )
-			{			
-			/* I always hated the way the old plugin outputted... so did my IDE... */
-			echo "<script type=\"text/javascript\"> if (!(window.jQuery && jQuery.fn.jquery >= '1.6')){document.write(unescape(\"%3Cscript src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js' type='text/javascript'%3E%3C/script%3E\"));}</script>";
+			{
 			if($debug=="true")
 				echo "<script type=\"text/javascript\" src=\"$plugin_dir/jquery.infinitescroll.js\"></script>";
 			else
 				echo "<script type=\"text/javascript\" src=\"$plugin_dir/jquery.infinitescroll.min.js\"></script>";
-			echo "	<script type=\"text/javascript\">
+			echo "<script type=\"text/javascript\">
+					//We leave a function outside the infinite-scroll area so that it works with older jQuery versions
+					function infinite_scroll_callback() {
+						$js_calls	
+						}
 					jQuery(document).ready(function($) {
 					// Infinite Scroll jQuery+Wordpress plugin
+					// Now we're inside, we should be able to use $ again
 					$('$content_selector').infinitescroll({
 						debug           : $debug,
 						loading			: {
@@ -234,7 +252,7 @@ function wp_inf_scroll_init()
 						contentSelector : \"$content_selector\",
 						itemSelector    : \"$post_selector\",
 						pathParse		: [\"{$pathParse[0]}\", \"{$pathParse[1]}\"]
-						}, function() { $js_calls } );
+						}, function() { window.setTimeout(infinite_scroll_callback(), 1); } );
 					});	
 					</script>";
 			return true;

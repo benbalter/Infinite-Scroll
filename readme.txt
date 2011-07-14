@@ -48,6 +48,14 @@ Because it is. Go to [infinite-scroll.com](http://www.infinite-scroll.com) for m
 1. Loading the next set of posts
 
 == Changelog ==
+= 2.0b2.110713 = 
+* Fixed multiple jQuery loaded conflicts.
+* Now uses standard Wordpress javascript insertion.
+* Loads locally stored jQuery 1.6.2 if current version is < 1.6
+  this can only be detected through Wordpress now, hence the fix
+  for multiple versions conflicting (some naughty themes don't
+  use Wordpress's javascript loading).
+
 = 2.0b2.110709 = 
 * FIX: Default options not being recursively copied.
 * Updated to new options layout.
