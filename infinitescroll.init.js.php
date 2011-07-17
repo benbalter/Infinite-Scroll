@@ -8,11 +8,11 @@ Author: Beaver6813, dirkhaim, Paul Irish
 Author URI: http://www.infinite-scroll.com
 License   : http://creativecommons.org/licenses/GPL/2.0/
 */
+define('infscr_version'		,	'2.0b2.110716');
+
 header('Content-Type: application/javascript');
 require_once( '../../../wp-load.php' );
 wp();
-
-define('infscr_version'		,	'2.0b2.110716');
 
 function outputLicense()
 	{
@@ -33,10 +33,10 @@ function outputLicense()
 
 //Get pathParse and validate it.
 $error = false;
-if((!empty($_GET['p'])&&!empty($_GET['s']))&&($_GET['s']==md5(NONCE_KEY.$_GET['p']."infscr".infscr_version)))
+if($pathInfo = unserialize(base64_decode($_GET['p'])))
 	{
-	if(!$pathParse = unserialize(base64_decode($_GET['p'])))
-		$error = true;
+	if(empty($pathInfo[0])||count($pathInfo[0])<2||empty($pathInfo[1])||$pathInfo[1]!=md5(NONCE_KEY.$pathInfo[0][0]."infscr".$pathInfo[0][1].infscr_version))
+		$error = true;		
 	}
 else
 	$error = true;
@@ -89,7 +89,7 @@ else
 					navSelector     : "'.$navigation_selector.'",
 					contentSelector : "'.$content_selector.'",
 					itemSelector    : "'.$post_selector.'",
-					pathParse		: ["'.$pathParse[0].'", "'.$pathParse[1].'"]
+					pathParse		: ["'.$pathInfo[0][0].'", "'.$pathInfo[0][1].'"]
 					}, function() { window.setTimeout(infinite_scroll_callback(), 1); } );
 					});';
 		}
@@ -97,6 +97,6 @@ else
 		{
 		echo file_get_contents("js/jquery.infinitescroll.min.js");
 		echo 'function infinite_scroll_callback(){'.$js_calls.'}
-jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$current_page.'"},nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathParse[0].'","'.$pathParse[1].'"]},function(){window.setTimeout(infinite_scroll_callback(),1);});});';
+jQuery(document).ready(function($){$("'.$content_selector.'").infinitescroll({debug:'.$debug.',loading:{img:"'.$loading_image.'",msgText:"'.$loading_text.'",finishedMsg:"'.$donetext.'"},state:{currPage:"'.$current_page.'"},nextSelector:"'.$next_selector.'",navSelector:"'.$navigation_selector.'",contentSelector:"'.$content_selector.'",itemSelector:"'.$post_selector.'",pathParse:["'.$pathInfo[0][0].'","'.$pathInfo[0][1].'"]},function(){window.setTimeout(infinite_scroll_callback(),1);});});';
 		}	
 	}

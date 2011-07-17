@@ -7,48 +7,43 @@ Description: Automatically loads the next page of posts into the bottom of the i
 Author: Beaver6813, dirkhaim, Paul Irish
 Author URI: http://www.infinite-scroll.com
 License   : http://creativecommons.org/licenses/GPL/2.0/
-
-
-BUGS:
- - javascript insertion doesnt work on themes: qwiilm!, craving4green, Lush, no limits, stripedplus   
- - Note: Above bug left over from old plugin. Needs verifying.
 */
 define('infscr_version'		,	'2.0b2.110716');
 // constants for enables/disabled
 define('infscr_enabled'		, 'enabled');
 define('infscr_disabled'	, 'disabled');
-define('infscr_config'	, 'enabledforadmins');
-define('infscr_maint'	, 'disabledforadmins');
+define('infscr_config'		, 'enabledforadmins');
+define('infscr_maint'		, 'disabledforadmins');
 
 
 // options keys constants
-define('key_infscr_state'			, 'infscr_state');
+define('key_infscr_state'				, 'infscr_state');
 define('key_infscr_js_calls'			, 'infscr_js_calls');
-define('key_infscr_image'			, 'infscr_image');
-define('key_infscr_text'			, 'infscr_text');
+define('key_infscr_image'				, 'infscr_image');
+define('key_infscr_text'				, 'infscr_text');
 define('key_infscr_donetext'			, 'infscr_donetext');
-define('key_infscr_content_selector'		, 'infscr_content_selector');
+define('key_infscr_content_selector'	, 'infscr_content_selector');
 define('key_infscr_nav_selector'		, 'infscr_nav_selector');
 define('key_infscr_post_selector'		, 'infscr_post_selector');
 define('key_infscr_next_selector'		, 'infscr_next_selector');
 
 // add options and defaults
-add_option(key_infscr_state		, infscr_config			, 'If InfiniteScroll is turned on, off, or in maintenance');
-add_option(key_infscr_js_calls		, ''		, 'Javascript to execute when new content loads in');
-add_option(key_infscr_image		, plugins_url( 'infinite-scroll/ajax-loader.gif')			, 'Loading image');
-add_option(key_infscr_text		, '<em>Loading the next set of posts...</em>'			, 'Loading text');
-add_option(key_infscr_donetext		, '<em>Congratulations, you\'ve reached the end of the internet.</em>'			, 'Completed text');
-add_option(key_infscr_content_selector	, '#content'	, 'Content Div css selector');
-add_option(key_infscr_nav_selector 	, 'div.navigation'		, 'Navigation Div css selector');
-add_option(key_infscr_post_selector 	, '#content  div.post'		, 'Post Div css selector');
-add_option(key_infscr_next_selector 	, 'div.navigation a:first'		, 'Next page Anchor css selector');
-add_option(key_infscr_viewed_options 	, false		, 'Ever Viewed Options Page');
-add_option(key_infscr_debug 	, 0		, 'Debug Mode');
+add_option(key_infscr_state				, infscr_config			, 'If InfiniteScroll is turned on, off, or in maintenance');
+add_option(key_infscr_js_calls			, ''					, 'Javascript to execute when new content loads in');
+add_option(key_infscr_image				, plugins_url( 'infinite-scroll/ajax-loader.gif')						, 'Loading image');
+add_option(key_infscr_text				, '<em>Loading the next set of posts...</em>'							, 'Loading text');
+add_option(key_infscr_donetext			, '<em>Congratulations, you\'ve reached the end of the internet.</em>'	, 'Completed text');
+add_option(key_infscr_content_selector	, '#content'															, 'Content Div css selector');
+add_option(key_infscr_nav_selector 		, 'div.navigation'														, 'Navigation Div css selector');
+add_option(key_infscr_post_selector 	, '#content  div.post'													, 'Post Div css selector');
+add_option(key_infscr_next_selector 	, 'div.navigation a:first'												, 'Next page Anchor css selector');
+add_option(key_infscr_viewed_options 	, false																	, 'Ever Viewed Options Page');
+add_option(key_infscr_debug 			, 0																		, 'Debug Mode');
 
 // adding actions
 add_action('template_redirect'	, 'wp_inf_scroll_pre_init');
-add_action('admin_menu'		, 'add_wp_inf_scroll_options_page');
-add_action("wp"				, 'wp_inf_scroll_404');	
+add_action('admin_menu'			, 'add_wp_inf_scroll_options_page');
+add_action("wp"					, 'wp_inf_scroll_404');	
 
 if ( get_option(key_infscr_state) == infscr_state_default && get_option(key_infscr_viewed_options) == false && !isset($_POST['submit']) )
 	add_action('admin_notices', 'wp_inf_scroll_setup_warning');	
@@ -111,7 +106,8 @@ We use this to retrieve the URL array (seperated for placement of page number).
 This saves using regex on the entire URL that could be unpredictable on some
 installations.
 Added Build: 110628 */
-function wp_inf_scroll_get_pagenum_link() {
+function wp_inf_scroll_get_pagenum_link() 
+	{
 	global $wp_rewrite;
 
 	$request = remove_query_arg( 'paged' );
@@ -151,36 +147,14 @@ function wp_inf_scroll_get_pagenum_link() {
 	}
 	$result = apply_filters('get_pagenum_link', $result);
 	return explode("|||INF-SPLITHERE|||",$result);
-}
+	}
 function wp_inf_scroll_init()
 	{
 	global $user_level;
-	$load_infinite_scroll = true;
-	$error_reason = "";
-	
+	$load_infinite_scroll = true;	
 	/* Lets start our pre-flight checks */
-	if (get_option(key_infscr_state) == infscr_disabled)
+	if (get_option(key_infscr_state) == infscr_disabled || (is_page() || is_single()) || (get_option(key_infscr_state) == infscr_maint && $user_level >= 8) || (get_option(key_infscr_state) == infscr_config && $user_level <= 8) || (!have_posts()))
 		$load_infinite_scroll = false;
-	else if (is_page() || is_single() ) /* single posts/pages dont get it */
-		{
-		$error_reason = 'Single post/page';
-		$load_infinite_scroll = false;
-		}
-	else if (get_option(key_infscr_state) == infscr_maint && $user_level >= 8)
-  		{
-		$error_reason = 'Administrator (Maintenance State)';
-		$load_infinite_scroll = false;
-		}
-	else if (get_option(key_infscr_state) == infscr_config && $user_level <= 8)
-		{
-		$error_reason = 'Visitors (Config State)';
-		$load_infinite_scroll = false;	
-		}
-	else if ( !have_posts() )
-		{
-		$error_reason = 'No Posts to Display';
-		$load_infinite_scroll = false;		
-		}
 		
 	/* Pre-flight checks complete. Are we good to fly? */	
 	if($load_infinite_scroll)
@@ -191,35 +165,25 @@ function wp_inf_scroll_init()
 		
 		$nextpage_no 		= intval($current_page) + 1;
 		$max_page 			= $wp_query->max_num_pages;
-		$pathParse			= base64_encode(serialize(wp_inf_scroll_get_pagenum_link()));
-		
 		if ( !$max_page || $max_page >= $nextpage )
 			{
-			//We have to pass pathParse to the script as the script can't determine the path itself. 
-			//We have to introduce some form of validation, so we can validate/sign the pathParse we create.
-			$pathSign = md5(NONCE_KEY.$pathParse."infscr".infscr_version);
-			wp_register_script( "infinite-scroll-init", "$plugin_dir/infinitescroll.init.js.php?p=$pathParse&s=$pathSign", array("jquery"), infscr_version, false );
+			//We have to pass pathInfo to the script as the script can't determine the path itself. 
+			//We have to introduce some form of validation, so we can validate/sign the pathInfo we create.
+			$pathParse			= wp_inf_scroll_get_pagenum_link();
+			$pathInfo			= base64_encode(serialize(array($pathParse,md5(NONCE_KEY.$pathParse[0]."infscr".$pathParse[1].infscr_version))));
+			wp_register_script( "infinite-scroll-init", "$plugin_dir/infinitescroll.init.js.php?p=$pathInfo", array("jquery"), NULL, false );
 			wp_enqueue_script( "infinite-scroll-init" );
 			return true;
-			}
-		else
-			{
-    		echo "<!-- Infinite-Scroll not added. Reason: No More Posts To Display After This -->\r\n";
-			return false;
-    		}			
+			}		
 		}
-	else
-		{
-    	echo "<!-- Infinite-Scroll not added. Reason: $error_reason -->\r\n";
-		return false;
-    	}
+	return false;
 	}
 
 function wp_inf_scroll_options_page()
 	{
 	// if postback, store options
 	if (isset($_POST['info_update']))
-	{
+		{
 		check_admin_referer();	
 
 		// update state
@@ -283,7 +247,7 @@ function wp_inf_scroll_options_page()
 
 		// update notification
 		echo "<div class='updated'><p><strong>Infinite Scroll options updated</strong></p></div>";
-	}
+		}
 
 	// output the options page
 if ( get_option(key_infscr_state) == infscr_state_default && get_option(key_infscr_viewed_options) == true && !isset($_POST['submit']) )
@@ -293,18 +257,18 @@ if ( get_option(key_infscr_state) == infscr_state_default && get_option(key_infs
 <form action="options-general.php?page=<?php echo basename(__FILE__); ?>" method="post" enctype="multipart/form-data">
 	<div class="wrap">
 <?php
-	update_option(key_infscr_viewed_options, true);
- 	if (get_option(key_infscr_state) == infscr_disabled)
-			echo wp_inf_scroll_error("Infinite-Scroll plugin is <strong>disabled</strong>.");?>
+update_option(key_infscr_viewed_options, true);
+if (get_option(key_infscr_state) == infscr_disabled)
+	echo wp_inf_scroll_error("Infinite-Scroll plugin is <strong>disabled</strong>.");?>
 		  
-  <style type="text/css">
-    table.infscroll-opttable { width: 100%;}
-    table.infscroll-opttable td, table.infscroll-opttable th { vertical-align: top; padding: 9px 4px; }
-    table.infscroll-opttable th { padding-top: 13px; text-align: right;}
-    table.infscroll-opttable td p { margin: 0;}
-    table.infscroll-opttable dl { font-size: 90%; color: #666; margin-top: 5px; }
-    table.infscroll-opttable dd { margin-bottom: 0 }
-  </style>
+<style type="text/css">
+table.infscroll-opttable { width: 100%;}
+table.infscroll-opttable td, table.infscroll-opttable th { vertical-align: top; padding: 9px 4px; }
+table.infscroll-opttable th { padding-top: 13px; text-align: right;}
+table.infscroll-opttable td p { margin: 0;}
+table.infscroll-opttable dl { font-size: 90%; color: #666; margin-top: 5px; }
+table.infscroll-opttable dd { margin-bottom: 0 }
+</style>
   
 	<h2>Infinite Scroll Options</h2>
 
