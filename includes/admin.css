@@ -1,0 +1,11 @@
+/* Admin CSS */
+table.infscroll-opttable { width: 100%; }
+table.infscroll-opttable td, table.infscroll-opttable th { vertical-align: top; padding: 9px 4px;  }
+table.infscroll-opttable th { padding-top: 9px; text-align: right;}
+table.infscroll-opttable td p { margin: 0;}
+table.infscroll-opttable dl { font-size: 90%; color: #666; margin-top: 5px; }
+table.infscroll-opttable dd { margin-bottom: 0 }
+.infscroll-tab { display:none; }
+.infscroll-tab-active { display:block; }
+.infscroll_preset_nav { text-align: right; padding-top: 25px;}
+.form-table th { width: 20%; font-weight:bold; text-align:right; }
