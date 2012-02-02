@@ -1,4 +1,4 @@
-﻿=== Infinite-Scroll ===
+=== Infinite-Scroll ===
 Contributors: beaver6813, dirkhaim, paul.irish
 Donate link: http://www.infinite-scroll.com
 Tags: ajax, pagination, scrolling, scroll, endless, reading
@@ -150,4 +150,3 @@ Use plugins_url to determine plugin url
 
 = 1.0 =
 * June 29 - 1.0 release.
-
