@@ -22,62 +22,6 @@ Features:
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
-== Installation ==
-
-= Automatic Install =
-1. Login to your WordPress site as an Administrator
-2. Navigate to Plugins->Add New from the menu on the left
-3. Search for "Infinite Scroll"
-4. Click "Install"
-5. Click "Activate Now"
-
-= Manual Install =
-1. Download the plugin from the link in the top left corner
-2. Unzip the file, and upload the resulting "infinite-scroll" folder to your "/wp-content/plugins directory" as "/wp-content/plugins/infinite-scroll"
-3. Log into your WordPress install as an administrator, and navigate to the plugins screen from the left-hand menu
-4. Activate Infinite Scroll
-
-== Frequently Asked Questions ==
-
-= What exactly is infinite scrolling? =
-
-Essentially it is pre-fetching content from a subsequent page and adding it directly to the user’s current page. [More Information](http://www.infinite-scroll.com/the-interaction-design-pattern/)
-
-= Can I change the number of posts loaded? = 
-
-Yes. Go to Settings -> Reading.
-
-= How do I change the alignment of the loading image? =
-
-Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.
-
-= How can I pass additional arguments such as behavior or callbacks to the script? =
-
-Add a filter to `infinite_scroll_options` and adds additional options to the options array.
-
-= Is the plugin available in my language? = 
-
-If you enjoy the plugin and are interested in contributing a translation (it's super easy), please take a look at the [Translating WordPress](http://codex.wordpress.org/Translating_WordPress) page. 
-
-= Is it SEO-Friendly? =
-Yes all enhancements are made via javascript only, so search spiders see no difference.
-
-= Is it accessible? =
-
-Things won’t change for screen-readers. This technique degrades gracefully.
-
-= Does it still keep going, even at the end of the blog? =
-
-Infinite scroll is configured to die when it hits a 404 Not Found status code, so when it goes through all your archives it should hit a /page/43/ (or something) that doesn’t exist, then show a message "Congrats, you’ve reached the end of the internet." Some WordPress themes don’t report not found pages with a 404. Try a different theme or contacting the theme author.
-
-= Do I need to edit my theme to make this work? =
-
-Probably not, nope.
-
-== Screenshots ==
-
-1. Loading the next set of posts
-
 == Changelog ==
 
 = 2.5 =
@@ -211,3 +155,55 @@ Use plugins_url to determine plugin url
 
 = 1.0 =
 * June 29 - 1.0 release.
+
+== Frequently Asked Questions ==
+
+= What exactly is infinite scrolling? =
+
+Essentially it is pre-fetching content from a subsequent page and adding it directly to the user’s current page. [More Information](http://www.infinite-scroll.com/the-interaction-design-pattern/)
+
+= Can I change the number of posts loaded? = 
+
+Yes. Go to Settings -> Reading.
+
+= How do I change the alignment of the loading image? =
+
+Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.
+
+= How can I pass additional arguments such as behavior or callbacks to the script? =
+
+Add a filter to `infinite_scroll_options` and adds additional options to the options array.
+
+= Is the plugin available in my language? = 
+
+If you enjoy the plugin and are interested in contributing a translation (it's super easy), please take a look at the [Translating WordPress](http://codex.wordpress.org/Translating_WordPress) page. 
+
+= Is it SEO-Friendly? =
+Yes all enhancements are made via javascript only, so search spiders see no difference.
+
+= Is it accessible? =
+
+Things won’t change for screen-readers. This technique degrades gracefully.
+
+= Does it still keep going, even at the end of the blog? =
+
+Infinite scroll is configured to die when it hits a 404 Not Found status code, so when it goes through all your archives it should hit a /page/43/ (or something) that doesn’t exist, then show a message "Congrats, you’ve reached the end of the internet." Some WordPress themes don’t report not found pages with a 404. Try a different theme or contacting the theme author.
+
+= Do I need to edit my theme to make this work? =
+
+Probably not, nope.
+
+== Installation ==
+
+= Automatic Install =
+1. Login to your WordPress site as an Administrator
+2. Navigate to Plugins->Add New from the menu on the left
+3. Search for "Infinite Scroll"
+4. Click "Install"
+5. Click "Activate Now"
+
+= Manual Install =
+1. Download the plugin from the link in the top left corner
+2. Unzip the file, and upload the resulting "infinite-scroll" folder to your "/wp-content/plugins directory" as "/wp-content/plugins/infinite-scroll"
+3. Log into your WordPress install as an administrator, and navigate to the plugins screen from the left-hand menu
+4. Activate Infinite Scroll
