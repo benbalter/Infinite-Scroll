@@ -100,6 +100,10 @@ class Infinite_Scroll  {
 	 */
 	function enqueue_js() {
 		
+		//no need to show on singular pages
+		if ( is_singlular() )
+			return;
+		
 		$suffix = ( WP_DEBUG || WP_SCRIPT_DEBUG ) ? '.dev' : '';
 		
 		$file = "/js/front-end/jquery.infinitescroll{$suffix}.js";
