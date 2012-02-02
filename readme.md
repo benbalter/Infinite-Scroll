@@ -26,7 +26,7 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
 ### 2.5 ###
 * Plugin completely rewritten from the bottom up
-* **Note: you will need to manually reactivate this plugin after upgrading**  
+* **Note: you will need to manually reactivate this plugin after upgrading**
 * Minimum WordPress version required now to **3.2**
 * Added support for internationalization
 * Options screens significantly simplified with additional help text
@@ -43,13 +43,17 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Site (or network) specific CSS selector presets are now stored in the database (security enhancement)
 * CSS Preset updater now uses WP_HTTP class (compatibility enhancement)
 * Javascript file now served directly to user (rather than proxied via PHP) to allow for browser caching and better integration with caching plugins (performance enhancement)
+* No longer relies on deprecated user levels to determine permissions
 * Default loading and fished messages changed
+* Fixes for error and warnings when run with `WP_DEBUG` enabled
 * Removed prompt for option to activate infinite scrolling for only certain users (defaults to all)
 * Removed prompt for option to toggle debug mode (defaults to `WP_DEBUG` or `SCRIPT_DEBUG`)
 * Removed prompt for option to toggle scrolling behavior (defaults to automatic)
 * Removed prompt for additional callbacks
 * Removed prompt to select image alignment (defaults to left, can override via CSS)
-* Significant code clean up, file reorganization, and in-line documentation to conform to WordPress coding and style standards
+* Significant code clean up, file reorganization, and in-line documentation to conform to WordPress coding and style standards (whitespace, double v. single quotes, tab drift, trailing commas, closing PHP tags, etc.)
+* Classes loaded as sub-classes (rather than extending parent class) to prevent classes from becoming out of sync
+* Added phpdoc style documentation
 * Plugin file name changed to conform to standard WordPress naming conventions
 * License (GPL) included with distribution
 * Version numbering simplified
