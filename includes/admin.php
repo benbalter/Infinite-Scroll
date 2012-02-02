@@ -16,19 +16,20 @@ class Infinite_Scroll_Admin {
 	 */
 	function __construct( &$parent ) {
 
-		$this->parent = &$parent;		
-		
+		$this->parent = &$parent;
+
 		add_action( 'admin_menu', array( &$this, 'options_menu_init' ) );
 		add_action( 'admin_init', array( &$this, 'register_setting' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue' ) );
-	
+
 		//upload helers
 		add_action( 'admin_footer', array( &$this, 'bind_upload_cb' ) );
 		add_filter( 'media_meta', array( &$this, 'media_meta_hack'), 10, 1);
 		add_filter( 'media_upload_form_url', array( &$this, 'post_upload_handler' ) );
 
 	}
-	
+
+
 	/**
 	 * Register our option with WordPress
 	 */
@@ -49,25 +50,27 @@ class Infinite_Scroll_Admin {
 	 * Callback to load options template
 	 */
 	function options() {
-	
+
 		//toggle presets page
 		$file = isset( $_GET['manage-presets'] ) ? 'manage-presets' : 'options';
-		
+
 		require dirname( $this->parent->file ) . '/templates/' . $file . '.php';
 	}
 
 
 	/**
 	 * Sanitizes options on save
-	 * @param unknown $options
-	 * @return unknown
+	 * @param array $options the raw options
+	 * @return array the filtered options
+	 * @todo VALIDATE
 	 */
 	function options_validate( $options ) {
 
 		return $options;
 
 	}
-	
+
+
 	/**
 	 * Enqueue admin JS on options page
 	 */
@@ -75,16 +78,17 @@ class Infinite_Scroll_Admin {
 
 		if ( get_current_screen()->id != 'settings_page_infinite_scroll_options' && !DOING_IFRAME )
 			return;
-			
+
 		$suffix = ( WP_DEBUG || SCRIPT_DEBUG ) ? '.dev' : '';
 		$file = "/js/admin/infinite-scroll{$suffix}.js";
-		
+
 		wp_enqueue_script( $this->parent->slug, plugins_url( $file, $this->parent->file ), array( 'jquery', 'media-upload', 'thickbox' ), $this->parent->version, true );
 		wp_enqueue_style('thickbox');
-		
+
 		wp_localize_script( $this->parent->slug, $this->parent->slug_, array( 'confirm' => __( 'Are you sure you want to delete the preset "%s"?', 'infinite-scroll' ) ) );
 
 	}
+
 
 	/**
 	 * Callback to inject JavaScript in page after upload is complete (pre 3.3)
@@ -92,14 +96,15 @@ class Infinite_Scroll_Admin {
 	 * Adapted from WP Document Revisions
 	 *
 	 * @param int $id the ID of the attachment
+	 * @return string the JS to insert
 	 */
 	function post_upload_js() {
-	
+
 		if ( !isset( $_GET[ $this->parent->slug_ ] ) )
 			return;
-	
+
 		return "<script>jQuery(document).ready(function($) { postImageUpload() });</script>";
-	
+
 	}
 
 
@@ -110,12 +115,12 @@ class Infinite_Scroll_Admin {
 	 * Adapted from WP Document Revisions
 	 */
 	function bind_upload_cb() {
-				
+
 		global $pagenow;
 		if ( $pagenow != 'media-upload.php' )
 			return;
-			
-	?><script>jQuery(document).ready(function(){bindPostImageUploadCB()});</script><?php 
+
+		?><script>jQuery(document).ready(function(){bindPostImageUploadCB()});</script><?php
 
 	}
 
@@ -130,7 +135,7 @@ class Infinite_Scroll_Admin {
 	 * @returns string meta + js to process post
 	 */
 	function media_meta_hack( $meta ) {
-		
+
 		if ( !isset( $_GET[ $this->parent->slug_ ] ) )
 			return $meta;
 
@@ -146,9 +151,9 @@ class Infinite_Scroll_Admin {
 	 *
 	 * Adapted from WP Document Revisions
 	 *
+	 * @todo verify proper parent page
 	 * @param string $filter whatever we really should be filtering
 	 * @returns string the same stuff they gave us, like we were never here
- 	 * @todo verify proper parent page
 	 */
 	function post_upload_handler( $filter ) {
 
@@ -165,5 +170,6 @@ class Infinite_Scroll_Admin {
 		return $filter;
 
 	}
+
 
 }

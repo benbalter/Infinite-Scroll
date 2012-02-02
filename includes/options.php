@@ -1,15 +1,15 @@
 <?php
 /**
  * Provides interface to store and retrieve plugin and user options
+ * @subpackage Infinite_Scroll_Options
  * @author Benjamin J. Balter
  * @package Infinite_Scroll
- * @subpackage Infinite_Scroll_Options
  */
 class Infinite_Scroll_Options {
 
 	//default scope for options when called directly,
 	//choices: site, user, or global (user option across sites)
-	public $defaults      = array();
+	public $defaults = array();
 	private $parent;
 
 	/**
@@ -22,7 +22,7 @@ class Infinite_Scroll_Options {
 
 		add_action( 'admin_init', array( &$this, 'options_init' ) );
 		add_action( $this->parent->prefix . 'options', array( &$this, 'default_options_filter' ), 20 );
-		
+
 	}
 
 
@@ -42,30 +42,30 @@ class Infinite_Scroll_Options {
 	 * @return array sanitized options array
 	 */
 	function validate( $options ) {
-		
+
 		//add slashes to JS selectors
 		$js = array ( 'nextSelector', 'navSelector', 'itemSelector', 'contentSelector', 'callback' );
 		foreach ( $js as $field ) {
-		
+
 			if ( !isset( $options[$field] ) )
 				continue;
-		
+
 			$options[$field] = addslashes( $options[ $field ] );
-		
+
 		}
-		
+
 		//force post-style kses on messages
 		foreach ( array( 'finishedMsg', 'msgText' ) as $field ) {
-			
+
 			if ( !isset( $options[$field] ) )
 				continue;
-			
+
 			$options[$field] = wp_filter_post_kses( $options[$field] );
-				
+
 		}
-		
+
 		//handle file uploads
-		
+
 
 		return apply_filters( $this->parent->prefix . 'options_validate', $options );
 
@@ -81,7 +81,7 @@ class Infinite_Scroll_Options {
 	function __get( $name ) {
 
 		return $this->get_option( $name );
-	
+
 	}
 
 
@@ -98,6 +98,7 @@ class Infinite_Scroll_Options {
 
 	}
 
+
 	/**
 	 * Retreive the options array
 	 * @return array the options
@@ -112,19 +113,20 @@ class Infinite_Scroll_Options {
 		return apply_filters( $this->parent->prefix . 'options', $options );
 
 	}
-	
-	/** 
+
+
+	/**
 	 * If any options are not set, merge with defaults
 	 * @param array $options the saved options
 	 * @return array the merged options with defaults
 	 */
 	function default_options_filter( $options ) {
-		
+
 		$this->defaults[ 'db_version' ] = $this->parent->version;
 		$options = wp_parse_args( $options, $this->defaults );
 		wp_cache_set( 'options', $options, $this->parent->slug );
 		return $options;
-	
+
 	}
 
 
@@ -142,9 +144,9 @@ class Infinite_Scroll_Options {
 
 	/**
 	 * Sets a specific option
+	 * @return bool success/fail
 	 * @param string $key the unique option key
 	 * @param mixed $value the value
-	 * @return bool success/fail
 	 */
 	function set_option( $key, $value ) {
 		$options = array( $key => $value );
@@ -155,7 +157,7 @@ class Infinite_Scroll_Options {
 	/**
 	 * Sets all plugin options
 	 * @param array $options the options array
-	 * @param unknown $merge (optional)
+	 * @param bool $merge (optional) whether or not to merge options arrays or overwrite
 	 * @return bool success/fail
 	 */
 	function set_options( $options, $merge = true ) {

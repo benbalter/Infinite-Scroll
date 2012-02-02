@@ -4,7 +4,7 @@ Plugin Name: Infinite Scroll
 Description:
 Version: 1.0
 Author: Beaver6813, dirkhaim, Paul Irish, benbalter
-Author URI: 
+Author URI:
 License: GPL3
 */
 
@@ -34,7 +34,7 @@ require_once dirname( __FILE__ ) . '/includes/options.php';
 require_once dirname( __FILE__ ) . '/includes/admin.php';
 require_once dirname( __FILE__ ) . '/includes/presets.php';
 
-class Infinite_Scroll  {
+class Infinite_Scroll {
 
 	static $instance;
 	public $options;
@@ -44,7 +44,6 @@ class Infinite_Scroll  {
 	public $slug_     = 'infinite_scroll'; //slug with underscores (PHP/JS safe)
 	public $prefix    = 'infinite_scroll_'; //prefix to append to all options, API calls, etc. w/ trailing underscore
 	public $file      = null;
-	public $directory = null;
 	public $version   = '2.5';
 
 	/**
@@ -53,74 +52,79 @@ class Infinite_Scroll  {
 	function __construct() {
 
 		self::$instance = &$this;
-		$this->file = __FILE__;
-		$this->admin = new Infinite_Scroll_Admin( &$this );
+		$this->file    = __FILE__;
+		$this->admin   = new Infinite_Scroll_Admin( &$this );
 		$this->options = new Infinite_Scroll_Options( &$this );
 		$this->presets = new Infinite_Scroll_Presets( &$this );
-						
+
 		//upgrade db
 		add_action( 'admin_init', array( &$this, 'upgrade_check' ) );
-		
+
 		//i18n
 		add_action( 'init', array( &$this, 'i18n' ) );
-	
+
 		//default options
 		add_action( 'init', array( &$this, 'init_defaults' ) );
-		
+
 		//js
 		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_js' ) );
 		add_action( 'wp_footer', array( &$this, 'footer' ), 100 ); //low priority will load after i18n and script loads
-		
+
+		//preset cron
 		register_activation_hook( __FILE__, $this->presets->schedule );
 		register_deactivation_hook( __FILE__, $this->presets->unschedule );
 
 	}
 
+
 	/**
 	 * Init default options
 	 */
 	function init_defaults() {
-		
+
 		//option keys map to javascript options where applicable
-		$this->options->defaults = array( 
-			'finishedMsg' => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
-			'img' => plugins_url( 'img/ajax-loader.gif', __FILE__ ), 
-			'msgText' => __( '<em>Loading...</em>', 'infinite-scroll' ),
-			'nextSelector' => '#nav-below a:first',
-			'navSelector' => '#nav-below',
-			'itemSelector' => '.post',
+		$this->options->defaults = array(
+			'finishedMsg'     => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
+			'img'             => plugins_url( 'img/ajax-loader.gif', __FILE__ ),
+			'msgText'         => __( '<em>Loading...</em>', 'infinite-scroll' ),
+			'nextSelector'    => '#nav-below a:first',
+			'navSelector'     => '#nav-below',
+			'itemSelector'    => '.post',
 			'contentSelector' => '#content',
-			'debug' => ( WP_DEBUG || SCRIPT_DEBUG ),
+			'debug'           => ( WP_DEBUG || SCRIPT_DEBUG ),
 		);
 
 	}
-	
+
+
 	/**
 	 * Enqueue front-end JS and pass options to json_encoded array
 	 */
 	function enqueue_js() {
-		
+
 		//no need to show on singular pages
 		if ( is_singlular() )
 			return;
-		
+
 		$suffix = ( WP_DEBUG || WP_SCRIPT_DEBUG ) ? '.dev' : '';
-		
+
 		$file = "/js/front-end/jquery.infinitescroll{$suffix}.js";
 
-		wp_enqueue_script( $this->slug, plugins_url( $file, __FILE__ ), array( 'jquery' ), $this->version, true ); 
-	
-		wp_localize_script( $this->slug, $this->slug_, $this->options->get_options() );	
-		
+		wp_enqueue_script( $this->slug, plugins_url( $file, __FILE__ ), array( 'jquery' ), $this->version, true );
+
+		wp_localize_script( $this->slug, $this->slug_, $this->options->get_options() );
+
 	}
-	
+
+
 	/**
 	 * Load footer template to pass options array to JS
 	 */
 	function footer() {
 		require dirname( __FILE__ ) . '/templates/footer.php';
 	}
-	
+
+
 	/**
 	 * Init i18n files
 	 */
@@ -149,16 +153,16 @@ class Infinite_Scroll  {
 
 	/**
 	 * Upgrade DB to latest version
+	 * @TODO MIGRATE OLD UPGRADE PROCEDURE
 	 * @param int $from version comming from
 	 * @param int $to version going to
-	 * @TODO MIGRATE OLD UPGRADE PROCEDURE
 	 */
-	function upgrade( $from , $ti ) {
-		
+	function upgrade( $from , $to ) {
+
 		//array of option conversions in the form of from => to
-		$map = array( 
+		$map = array(
 			'js_calls' => 'callback',
-			'image' => 'img', 
+			'image' => 'img',
 			'text' => 'msgText',
 			'dontetext' => 'finishedMsg',
 			'content_selector' => 'contentSelector',
@@ -166,22 +170,22 @@ class Infinite_Scroll  {
 			'nav_selector' => 'navSelector',
 			'next_selector' => 'nextSelector',
 		);
-		
+
 		$old = get_options( 'infscr_options' );
 		$new = array();
-		
+
 		foreach ( $map as $from => $to ) {
-			
+
 			if ( !isset( $old[ 'infscr_' . $from ] ) )
 				continue;
-			
+
 			$new[ $to ] = $old[ 'infscr_' . $from ];
-			
+
 		}
-		
+
 		$this->options->set_options( $new );
 		delete_option( 'infscr_options' );
-	
+
 	}
 
 
