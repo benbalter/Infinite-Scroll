@@ -103,7 +103,7 @@ class Infinite_Scroll {
 	function enqueue_js() {
 
 		//no need to show on singular pages
-		if ( is_singlular() )
+		if ( is_singular() )
 			return;
 
 		$suffix = ( WP_DEBUG || WP_SCRIPT_DEBUG ) ? '.dev' : '';
