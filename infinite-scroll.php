@@ -8,7 +8,7 @@ Author URI:
 License: GPL3
 */
 
-/*  Copyright 2012  Beaver6813, dirkhaim, Paul Irish, Benjamin J. Balter
+/*  Copyright 2008-2012 Beaver6813, dirkhaim, Paul Irish, Benjamin J. Balter
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ License: GPL3
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  @copyright 2012
+ *  @copyright 2008-2012
  *  @license GPL v3
  *  @version 2.5
  *  @package Infinite Scroll
@@ -83,9 +83,9 @@ class Infinite_Scroll  {
 		
 		//option keys map to javascript options where applicable
 		$this->options->defaults = array( 
-			'finishedMsg' => __( '<em>Congratulations, you\'ve reached the end of the internet.</em>', 'infinite-scroll' ),
+			'finishedMsg' => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
 			'img' => plugins_url( 'img/ajax-loader.gif', __FILE__ ), 
-			'msgText' => __( '<em>Loading the next set of posts...</em>', 'infinite-scroll' ),
+			'msgText' => __( '<em>Loading...</em>', 'infinite-scroll' ),
 			'nextSelector' => '#nav-below a:first',
 			'navSelector' => '#nav-below',
 			'itemSelector' => '.post',
