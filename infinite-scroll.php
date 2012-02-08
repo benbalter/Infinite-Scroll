@@ -174,12 +174,35 @@ class Infinite_Scroll {
 			'next_selector' => 'nextSelector',
 		);
 
-		$old = get_options( 'infscr_options' );
+		$old = get_option( 'infscr_options' );
 		$new = array();
 
+		//really old legacy options storage
+		//each option is stored as its own option in the options table
+		if ( !$old ) {
+		
+			//loop through options and attempt to find
+			foreach ( array_keys( $map ) as $option ) {
+				
+				$legacy = get_option( 'infscr_' . $option );
+				
+				if ( !$legacy )
+					continue;
+				
+				//move to new option array and delete old
+				$new[ $map[ $option ] ] = $legacy;
+				delete_option( 'infscr_' . $option );
+					
+			}
+		
+		}
+		
+		
+		//pre 2.5 options storage
+		//all stuffed in a single array, but not properly keyed
 		foreach ( $map as $from => $to ) {
 
-			if ( !isset( $old[ 'infscr_' . $from ] ) )
+			if ( !$old || !isset( $old[ 'infscr_' . $from ] ) )
 				continue;
 
 			$new[ $to ] = $old[ 'infscr_' . $from ];

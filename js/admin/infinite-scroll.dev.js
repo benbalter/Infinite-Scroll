@@ -111,6 +111,8 @@ jQuery(document).ready(function( $) {
 		return false;
 		
 	});
+	
+	bindPostImageUploadCB();
 	 
 });
 
@@ -122,17 +124,25 @@ function bindPostImageUploadCB() {
 		return;
 	
 	uploader.bind( 'FileUploaded', function( up, file, response ) {
+	
+	console.log( up, file, response );
 					
 		//if error, kick
 		if ( response.response.match('media-upload-error') )
 			return;
 					
-		postImageUpload( );
+		postImageUpload( file, response.response );
 					
 	});
 
 }
 
-function postImageUpload() {
-	alert('foo');
+function postImageUpload( file, response ) {
+	console.log ( response );
+	console.log( jQuery( 'input' ) );
+	jQuery( '#send[' + response + ']' ).click();
+	console.log( jQuery( '#send[' + response + ']' ) );
+	
+	//console.log( url );
+
 }

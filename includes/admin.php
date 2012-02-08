@@ -74,12 +74,13 @@ class Infinite_Scroll_Admin {
 	 * @param int $id the ID of the attachment
 	 * @return string the JS to insert
 	 */
-	function post_upload_js() {
+	function post_upload_js( $id ) {
 
 		if ( !isset( $_GET[ $this->parent->slug_ ] ) )
 			return;
-
-		return "<script>jQuery(document).ready(function($) { postImageUpload() });</script>";
+		
+		$url = wp_get_attachment_url( $id );
+		return "<script>var url = $url; jQuery(document).ready(function($) { postImageUpload( url ) });</script>";
 
 	}
 
