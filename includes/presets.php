@@ -83,17 +83,41 @@ class Infinite_Scroll_Presets {
 
 		//remove the last line
 		array_pop( $data );
-
+	
+		//break up each line from string to array of elements
+		
+		//php 5.3+
+		if ( function_exists( 'str_getcsv' ) ) {
+			
+			foreach ( $data as &$line )
+				$line = str_getcsv( $line );
+		
+		//php 5.2
+		// fgetcsv needs a file handle, 
+		// so write the string to a temp file before parsing	
+		} else {
+			
+			$fh = tmpfile();
+			fwrite( $fh, implode( "\n", $data ) );
+			fseek( $fh, 0 );
+			$data = array();
+			
+			while( $line = fgetcsv( $fh ) )
+				$data[] = $line;
+			
+			fclose( $fh );
+			
+		}
+					
 		$presets = array();
 
 		//build preset objects and stuff into keyed array
 		foreach ( $data as $line ) {
 
 			$lineObj = new stdClass;
-			$parts = str_getcsv( $line );
 
 			foreach ( $this->keys as $id => $key )
-				$lineObj->$key = $parts[ $id ];
+				$lineObj->$key = $line[ $id ];	
 
 			$presets[ $lineObj->theme ] = $lineObj;
 
