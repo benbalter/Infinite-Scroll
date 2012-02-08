@@ -19,7 +19,6 @@ class Infinite_Scroll_Admin {
 		$this->parent = &$parent;
 
 		add_action( 'admin_menu', array( &$this, 'options_menu_init' ) );
-		add_action( 'admin_init', array( &$this, 'register_setting' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'admin_enqueue' ) );
 
 		//upload helers
@@ -28,15 +27,6 @@ class Infinite_Scroll_Admin {
 		add_filter( 'media_upload_form_url', array( &$this, 'post_upload_handler' ) );
 
 	}
-
-
-	/**
-	 * Register our option with WordPress
-	 */
-	function register_setting() {
-		register_setting( $this->parent->slug_, $this->parent->slug_, array( &$this, 'options_validate' ) );
-	}
-
 
 	/**
 	 * Register our menu with WordPress
@@ -57,20 +47,6 @@ class Infinite_Scroll_Admin {
 		require dirname( $this->parent->file ) . '/templates/' . $file . '.php';
 	}
 
-
-	/**
-	 * Sanitizes options on save
-	 * @param array $options the raw options
-	 * @return array the filtered options
-	 * @todo VALIDATE
-	 */
-	function options_validate( $options ) {
-
-		return $options;
-
-	}
-
-
 	/**
 	 * Enqueue admin JS on options page
 	 */
@@ -78,7 +54,7 @@ class Infinite_Scroll_Admin {
 
 		if ( get_current_screen()->id != 'settings_page_infinite_scroll_options' && !defined( 'IFRAME_REQUEST' ) )
 			return;
-
+		
 		$suffix = ( WP_DEBUG || SCRIPT_DEBUG ) ? '.dev' : '';
 		$file = "/js/admin/infinite-scroll{$suffix}.js";
 
