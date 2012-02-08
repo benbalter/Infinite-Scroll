@@ -74,6 +74,9 @@ class Infinite_Scroll {
 		register_activation_hook( __FILE__, $this->presets->schedule );
 		register_deactivation_hook( __FILE__, $this->presets->unschedule );
 
+		//404 fix
+		add_action( 'wp', array( &$this, 'paged_404_fix' ) );
+
 	}
 
 
@@ -185,6 +188,24 @@ class Infinite_Scroll {
 
 		$this->options->set_options( $new );
 		delete_option( 'infscr_options' );
+
+	}
+
+
+	/**
+	 * If we go beyond the last page and request a page that doesn't exist,
+	 * force WordPress to return a 404.
+	 * See http://core.trac.wordpress.org/ticket/15770
+	 */
+	function paged_404_fix( ) {
+		global $wp_query;
+
+		if ( !is_paged() || 0 != count( $wp_query->posts ) )
+			return;
+
+		$wp_query->set_404();
+		status_header( 404 );
+		nocache_headers();
 
 	}
 

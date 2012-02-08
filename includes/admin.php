@@ -76,7 +76,7 @@ class Infinite_Scroll_Admin {
 	 */
 	function admin_enqueue() {
 
-		if ( get_current_screen()->id != 'settings_page_infinite_scroll_options' && !DOING_IFRAME )
+		if ( get_current_screen()->id != 'settings_page_infinite_scroll_options' && !defined( 'IFRAME_REQUEST' ) )
 			return;
 
 		$suffix = ( WP_DEBUG || SCRIPT_DEBUG ) ? '.dev' : '';
