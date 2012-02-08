@@ -200,7 +200,7 @@ class Infinite_Scroll {
 	function paged_404_fix( ) {
 		global $wp_query;
 
-		if ( !is_paged() || 0 != count( $wp_query->posts ) )
+		if ( is_404() || !is_paged() || 0 != count( $wp_query->posts ) )
 			return;
 
 		$wp_query->set_404();
