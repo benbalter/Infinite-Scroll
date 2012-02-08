@@ -47,7 +47,7 @@ class Infinite_Scroll {
 	public $version   = '2.5';
 
 	/**
-	 * Construct the boilerplate and autoload all child classes
+	 * Construct the primary class and autoload all child classes
 	 */
 	function __construct() {
 
@@ -156,7 +156,6 @@ class Infinite_Scroll {
 
 	/**
 	 * Upgrade DB to latest version
-	 * @TODO MIGRATE OLD UPGRADE PROCEDURE
 	 * @param int $from version comming from
 	 * @param int $to version going to
 	 */
