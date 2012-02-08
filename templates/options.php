@@ -54,7 +54,7 @@
 		</th>
 		<td>
 			<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-    			<?php wp_editor( $this->parent->options->msgText, 'infinite_scroll[msgText]', array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) ); ?>
+    			<?php wp_editor( $this->parent->options->loading['msgText'], 'infinite_scroll[loading][msgText]', array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) ); ?>
 			<span class="description"><?php _e( 'Text to display as new posts are retrieved', 'infinite-scroll' ); ?></span>	
     		</div> 
 		</td>
@@ -65,7 +65,7 @@
 		</th>
 		<td>
 			<div id="<?php echo user_can_richedit() ? 'postdivrich' : 'postdiv'; ?>" class="postarea">
-    			<?php wp_editor( $this->parent->options->finishedMsg, 'infinite_scroll[finishedMsg]', array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) ); ?>
+    			<?php wp_editor( $this->parent->options->loading['finishedMsg'], 'infinite_scroll[loading][finishedMsg]', array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) ); ?>
 			<span class="description"><?php _e( 'Text to display when no additional posts are available', 'infinite-scroll' ); ?></span>	
     		</div>
 		</td>

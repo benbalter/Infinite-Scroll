@@ -389,7 +389,7 @@
 		_setup: function infscr_setup() {
 			
 			var opts = this.options;
-			
+						
 			// if behavior is defined and this function is extended, call that instead of default
 			if (!!opts.behavior && this['_setup_'+opts.behavior] !== undefined) {
 				this['_setup_'+opts.behavior].call(this);

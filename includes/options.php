@@ -57,16 +57,13 @@ class Infinite_Scroll_Options {
 		//force post-style kses on messages
 		foreach ( array( 'finishedMsg', 'msgText' ) as $field ) {
 
-			if ( !isset( $options[$field] ) )
+			if ( !isset( $options['loading'][$field] ) )
 				continue;
 
-			$options[$field] = wp_filter_post_kses( $options[$field] );
+			$options['loading'][$field] = wp_filter_post_kses( $options['loading'][$field] );
 
 		}
-
-		//handle file uploads
-
-
+		
 		return apply_filters( $this->parent->prefix . 'options_validate', $options );
 
 	}

@@ -85,11 +85,13 @@ class Infinite_Scroll {
 	 */
 	function init_defaults() {
 
-		//option keys map to javascript options where applicable
+		//option keys map to javascript options and are passed directly via wp_localize_script
 		$this->options->defaults = array(
-			'finishedMsg'     => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
+			'loading' => array( 
+				'msgText'         => __( '<em>Loading...</em>', 'infinite-scroll' ),
+				'finishedMsg'     => __( '<em>No additional posts.</em>', 'infinite-scroll' ),
+			),
 			'img'             => plugins_url( 'img/ajax-loader.gif', __FILE__ ),
-			'msgText'         => __( '<em>Loading...</em>', 'infinite-scroll' ),
 			'nextSelector'    => '#nav-below a:first',
 			'navSelector'     => '#nav-below',
 			'itemSelector'    => '.post',
@@ -118,7 +120,6 @@ class Infinite_Scroll {
 		wp_localize_script( $this->slug, $this->slug_, $this->options->get_options() );
 
 	}
-
 
 	/**
 	 * Load footer template to pass options array to JS
@@ -206,6 +207,15 @@ class Infinite_Scroll {
 
 			$new[ $to ] = $old[ 'infscr_' . $from ];
 
+		}
+		
+		//regardless of which upgrade we did, move loading strign to array
+		$new['loading'] = array();
+		foreach ( array( 'finishedMsg', 'msgText' ) as $field ) {
+			if ( isset( $new[$field] ) ) {
+				$new['loading'][$field] = $new[$field];
+				unset( $new[$field] );
+			}
 		}
 
 		$this->options->set_options( $new );
