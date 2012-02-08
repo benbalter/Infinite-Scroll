@@ -109,7 +109,7 @@ class Infinite_Scroll {
 		if ( is_singular() )
 			return;
 
-		$suffix = ( WP_DEBUG || WP_SCRIPT_DEBUG ) ? '.dev' : '';
+		$suffix = ( WP_DEBUG || SCRIPT_DEBUG ) ? '.dev' : '';
 
 		$file = "/js/front-end/jquery.infinitescroll{$suffix}.js";
 
