@@ -96,7 +96,7 @@ class Infinite_Scroll {
 			'navSelector'     => '#nav-below',
 			'itemSelector'    => '.post',
 			'contentSelector' => '#content',
-			'debug'           => ( WP_DEBUG || SCRIPT_DEBUG ),
+			'debug'           => WP_DEBUG,
 		);
 
 	}
@@ -209,7 +209,7 @@ class Infinite_Scroll {
 
 		}
 		
-		//regardless of which upgrade we did, move loading strign to array
+		//regardless of which upgrade we did, move loading string to array
 		$new['loading'] = array();
 		foreach ( array( 'finishedMsg', 'msgText' ) as $field ) {
 			if ( isset( $new[$field] ) ) {
