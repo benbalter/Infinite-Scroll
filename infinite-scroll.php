@@ -2,7 +2,7 @@
 /*
 Plugin Name: Infinite Scroll
 Description: Automatically loads the next page of posts into the bottom of the initial page.
-Version: 1.0
+Version: 2.5
 Author: Beaver6813, dirkhaim, Paul Irish, benbalter
 Author URI:
 License: GPL3

@@ -42,7 +42,7 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Community contributed CSS selected asynchronously update daily (performance enhancement)
 * Site (or network) specific CSS selector presets are now stored in the database (security enhancement)
 * CSS Preset updater now uses WP_HTTP class (compatibility enhancement)
-* Javascript file now served directly to user (rather than proxied via PHP) to allow for browser caching and better integration with caching plugins (performance enhancement)
+* Javascript file now served directly to user (rather than proxied via PHP) to allow for browser caching, minification, serving via CDN, and better integration with caching plugins (performance enhancement)
 * No longer relies on deprecated user levels to determine permissions
 * Default loading and fished messages changed
 * Fixes for error and warnings when run with `WP_DEBUG` enabled
