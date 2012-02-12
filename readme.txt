@@ -214,3 +214,9 @@ Probably not, nope.
 2. Unzip the file, and upload the resulting "infinite-scroll" folder to your "/wp-content/plugins directory" as "/wp-content/plugins/infinite-scroll"
 3. Log into your WordPress install as an administrator, and navigate to the plugins screen from the left-hand menu
 4. Activate Infinite Scroll
+
+== Screenshots ==
+
+1. CSS Selector (theme) configuration options
+2. Text and image options (to display as additional posts load)
+3. Edit theme presets screen
