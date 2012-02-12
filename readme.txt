@@ -39,6 +39,7 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Any preset entered by site (or network) administrator will now override community contributed presets by default
 * Community contributed CSS selector presets are now stored in the database allowing for plugin directory to be unwritable (security enhancement)
 * Prompts users to default to CSS selector preset when available
+* Presets now support child themes
 * Community contributed CSS selected asynchronously update daily (performance enhancement)
 * Site (or network) specific CSS selector presets are now stored in the database (security enhancement)
 * CSS Preset updater now uses WP_HTTP class (compatibility enhancement)
