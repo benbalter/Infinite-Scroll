@@ -17,10 +17,12 @@ When a user scrolls towards the bottom of the page, the next page of posts is au
 Features:
 
 * Works out-of-the-box for many popular WordPress themes -- just activate the plugin and scroll
-* Fully customizeable
+* Fully customizable to adapt to your site and theme
 * Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
+* Relies on shared database of common themes to simplify installation process
+* Maintain local database of theme presets for all installed themes (shared across network on multisite installs)
 * Countless API endpoints to modify the behavior.
-* Backwards compatible: Will not break RSS readers, mobile devices, or browsers with javascript
+* Backwards compatible: Will not break RSS readers, mobile devices, or browsers with javascript  
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
@@ -28,7 +30,7 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
 ### 2.5 ###
 * Plugin completely rewritten from the bottom up
-* **Note: you will need to manually reactivate this plugin after upgrading**
+* **Note: you will need to manually reactivate this plugin after upgrading**  
 * Minimum WordPress version required now to **3.2**
 * Added support for internationalization
 * Options screens significantly simplified with additional help text
@@ -108,7 +110,7 @@ on code processed (and hence load time) for the end-user.
   use WordPress's javascript loading).
 
 ### 2.0b2.110709 ###
-*** FIX:** Default options not being recursively copied.  
+* FIX: Default options not being recursively copied.  
 * Updated to new options layout.
 * Callback fix.
 
@@ -175,7 +177,7 @@ Yes. Go to Settings -> Reading in your WordPress administrative dashboard.
 
 ### How do I change the alignment of the loading image? ###
 
-Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.  
+Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.    
 
 ### How can I pass additional arguments such as behavior or callbacks to the script? ###
 
@@ -215,3 +217,8 @@ Probably not, nope.
 3. Log into your WordPress install as an administrator, and navigate to the plugins screen from the left-hand menu
 4. Activate Infinite Scroll
 
+## Screenshots ##
+
+1. CSS Selector (theme) configuration options
+2. Text and image options (to display as additional posts load)
+3. Edit theme presets screen

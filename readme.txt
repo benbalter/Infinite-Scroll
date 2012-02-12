@@ -17,8 +17,10 @@ When a user scrolls towards the bottom of the page, the next page of posts is au
 Features:
 
 * Works out-of-the-box for many popular WordPress themes -- just activate the plugin and scroll
-* Fully customizeable
+* Fully customizable to adapt to your site and theme
 * Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
+* Relies on shared database of common themes to simplify installation process
+* Maintain local database of theme presets for all installed themes (shared across network on multisite installs)
 * Countless API endpoints to modify the behavior.
 * Backwards compatible: Will not break RSS readers, mobile devices, or browsers with javascript
 
@@ -169,19 +171,19 @@ Use plugins_url to determine plugin url
 
 Essentially it is pre-fetching content from a subsequent page and adding it directly to the user’s current page. [More Information](http://www.infinite-scroll.com/the-interaction-design-pattern/)
 
-= Can I change the number of posts loaded? = 
+= Can I change the number of posts loaded? =
 
-Yes. Go to Settings -> Reading.
+Yes. Go to Settings -> Reading in your WordPress administrative dashboard.
 
 = How do I change the alignment of the loading image? =
 
-Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.
+Add the following to your theme's css: `#infscr-loading img { text-align: ALIGNMENT; }` where "ALIGNMENT" is either `left`, `right`, or `center`.  
 
 = How can I pass additional arguments such as behavior or callbacks to the script? =
 
 Add a filter to `infinite_scroll_options` and adds additional options to the options array.
 
-= Is the plugin available in my language? = 
+= Is the plugin available in my language? =
 
 If you enjoy the plugin and are interested in contributing a translation (it's super easy), please take a look at the [Translating WordPress](http://codex.wordpress.org/Translating_WordPress) page. 
 
