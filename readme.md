@@ -165,6 +165,12 @@ Use plugins_url to determine plugin url
 ### 1.0 ###
 * June 29 - 1.0 release.
 
+## Screenshots ##
+
+1. ![CSS Selector (theme) configuration options](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-1.png)
+2. ![Text and image options (to display as additional posts load)](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-2.png)
+3. ![Edit theme presets screen](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-3.png)
+
 ## Frequently Asked Questions ##
 
 ### What exactly is infinite scrolling? ###
@@ -216,9 +222,3 @@ Probably not, nope.
 2. Unzip the file, and upload the resulting "infinite-scroll" folder to your "/wp-content/plugins directory" as "/wp-content/plugins/infinite-scroll"
 3. Log into your WordPress install as an administrator, and navigate to the plugins screen from the left-hand menu
 4. Activate Infinite Scroll
-
-## Screenshots ##
-
-1. CSS Selector (theme) configuration options
-2. Text and image options (to display as additional posts load)
-3. Edit theme presets screen
