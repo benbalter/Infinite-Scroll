@@ -10,15 +10,17 @@ Automatically append the next page of posts (via AJAX) to your page when a user 
 
 == Description ==
 
-Infinite Scroll adds the following functionality to your WordPress installation: **When a user scrolls towards the bottom of the page, the next page of posts is automatically retrieved and appended**. This means they never need to click "Next Page", which *dramatically increases stickiness*.
+Infinite scroll has been called autopagerize, unpaginate, endless pages. But essentially it is pre-fetching content from a subsequent page and adding it directly to the user’s current page.
+
+When a user scrolls towards the bottom of the page, the next page of posts is automatically retrieved and appended. This means they never need to click "Next Page", which *dramatically increases stickiness*.  
 
 Features:
 
-*   Fully embraces progressive enhancement: RSS readers and js-off folks will be happy.
-*   Fully customizable by text, css, and images.
-*   Works on 80% of WordPress themes, with little or no configuration.
-*   API hooks to modify the behavior.
-*   Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
+* Works out-of-the-box for many popular WordPress themes -- just activate the plugin and scroll
+* Fully customizeable
+* Requires no (hopefully) template hacking, only a knowledge of CSS selectors.
+* Countless API endpoints to modify the behavior.
+* Backwards compatible: Will not break RSS readers, mobile devices, or browsers with javascript
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
