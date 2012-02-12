@@ -37,9 +37,9 @@ jQuery(document).ready(function( $) {
 	});
 	 
 	//save-link
-	$( '#the-list .save-link a:first' ).live( 'click', function(event){ 
+	$( '#the-list .save-link a' ).live( 'click', function(event){
 		event.preventDefault();
-		
+	
 		var loader = $(this).siblings( '.loader' );
 		$(loader).show();
 		
@@ -89,7 +89,7 @@ jQuery(document).ready(function( $) {
 			return false;
 		
 		var tr = $(this).parent().parent().parent();
-		console.log( tr );
+		
 		$.ajax( {
 			url: ajaxurl + '?action=infinite-scroll-delete-preset&theme=' + theme, 
 			type: 'POST',
