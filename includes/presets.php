@@ -25,7 +25,8 @@
 class Infinite_Scroll_Presets {
 
 	private $parent;
-	public $preset_url        = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/PresetDB.csv.php';
+//	public $preset_url        = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/presetDB.csv.php';
+	public $preset_url		  = 'https://raw.github.com/benbalter/Infinite-Scroll/presetDB/presets.csv';
 	public $custom_preset_key = 'infinite_scroll_presets';
 	public $ttl               = 86400; //TTL of transient cache in seconds, 1 day = 86400 = 60*60*24
 	public $keys              = array( 'theme', 'contentSelector', 'navSelector', 'itemSelector', 'nextSelector' );
@@ -75,54 +76,10 @@ class Infinite_Scroll_Presets {
 			return array();
 
 		$data = wp_remote_retrieve_body( $data );
-
-		$data = explode( "\n", $data );
-
-		//remove first two lines
-		$data = array_slice( $data, 2 );
-
-		//remove the last line
-		array_pop( $data );
-	
-		//break up each line from string to array of elements
 		
-		//php 5.3+
-		if ( function_exists( 'str_getcsv' ) ) {
-			
-			foreach ( $data as &$line )
-				$line = str_getcsv( $line );
-		
-		//php 5.2
-		// fgetcsv needs a file handle, 
-		// so write the string to a temp file before parsing	
-		} else {
-			
-			$fh = tmpfile();
-			fwrite( $fh, implode( "\n", $data ) );
-			fseek( $fh, 0 );
-			$data = array();
-			
-			while( $line = fgetcsv( $fh ) )
-				$data[] = $line;
-			
-			fclose( $fh );
-			
-		}
+		//parse CSV string into array
+		$presets = $this->parse_csv( $data );
 					
-		$presets = array();
-
-		//build preset objects and stuff into keyed array
-		foreach ( $data as $line ) {
-
-			$lineObj = new stdClass;
-
-			foreach ( $this->keys as $id => $key )
-				$lineObj->$key = $line[ $id ];	
-
-			$presets[ $lineObj->theme ] = $lineObj;
-
-		}
-
 		//sort by key alpha ascending
 		asort( $presets );
 
@@ -135,18 +92,46 @@ class Infinite_Scroll_Presets {
 
 	/**
 	 * Return a theme's preset object
-	 * @param string the name of the theme
-	 * @param string $preset the theme to retrieve
+	 * @param string $theme the theme to retrieve
 	 * @return object the preset object
 	 */
-	function get_preset( $preset ) {
-
+	function get_preset( $theme ) {
+				
 		$presets = $this->get_presets();
-		return ( array_key_exists( $preset, $presets ) ) ? $presets[ $preset ] : false;
+			
+		//direct match found, return
+		if ( array_key_exists( $theme, $presets ) ) 
+			return $presets[ $theme ];
+			
+		$themes = get_themes();
+		
+		//theme isn't installed, no way to know if it's a child
+		if ( !isset( $themes[$theme] ) )
+			return false;
+				
+		$child = $themes[$theme];
+				
+		//not a child theme
+		if ( !isset( $child['Template'] ) || empty( $child['Template'] ) || $child['Template'] == $child['Stylesheet'] )
+			return false;
+		
+		//pull up parent data to get its name
+		$parent = $themes[$theme]['Template'];
+		$parent = get_theme_data( get_theme_root( $child['Template'] ) . '/' . $child['Template'] . '/style.css' );
+		$preset = $this->get_preset( $parent['Name'] );
+		
+		//no parent preset
+		if ( !$preset )
+			return false;
+			
+		//rename the theme of the parent preset object for consistent return
+		$preset->theme = $theme;
+		$preset->parentPreset = $parent['Name'];
+		
+		return $preset;
 
 	}
-
-
+	
 	/**
 	 * On plugin activation register with WP_Cron API to asynchronously refresh cache every 24 hours
 	 * This will also asynchronously prime the cache on activation
@@ -169,9 +154,9 @@ class Infinite_Scroll_Presets {
 	 * @uses get_preset
 	 */
 	function preset_prompt() {
-		$theme = strtolower( get_current_theme() );
+		$theme = get_current_theme();
 		$preset = $this->get_preset( $theme );
-
+		
 		if ( !$preset )
 			return;
 
@@ -208,7 +193,7 @@ class Infinite_Scroll_Presets {
 		check_admin_referer( 'infinite-scroll-presets', 'nonce' );
 
 		//don't delete options if we don't have a preset
-		$theme = strtolower( get_current_theme() );
+		$theme = get_current_theme();
 		$preset = $this->get_preset( $theme );
 
 		if ( !$preset )
@@ -337,7 +322,7 @@ class Infinite_Scroll_Presets {
 	function default_to_presets( $options ) {
 
 		//we don't have a preset, no need to go any further
-		if ( !( $preset = $this->get_preset( strtolower( get_current_theme() ) ) ) )
+		if ( !( $preset = $this->get_preset( get_current_theme() ) ) )
 			return $options;
 
 		foreach ( $this->keys as $key ) {
@@ -348,6 +333,88 @@ class Infinite_Scroll_Presets {
 		return $options;
 
 
+	}
+	/**
+	 * Converts legacy csv.php format
+	 * Removes first two lines and last line
+	 * @param string $data the contents of the CSV (usually via wp_remote_get)
+	 * @param string the equivalent standard CSV
+	 */
+	function parse_legacy_csv( $data ) {
+	
+		if ( is_string( $data ) )
+			$data = explode( "\n", $data );
+	
+		//remove first two lines
+		$data = array_slice( $data, 2 );
+
+		//remove the last line
+		array_pop( $data );	
+		
+		$presets = $this->parse_csv( $data );
+				
+		$output = array();
+		
+		//convert strtolower( Plugin Name ) to stylesheet
+		foreach( $presets as $theme ) {
+			$name = ucwords( $theme->theme );
+			$theme->theme = $name;
+			$output[ $name ] = $theme;
+		}
+		
+		return $output;
+		
+	}
+	
+	/**
+	 * Parse CSV into array of preset objects
+	 * @param string|array the CSV data, either as a string or as an array of lines
+	 * @return array array of preset objects
+	 */
+	function parse_csv( $data ) {
+	
+		if ( is_string( $data ) )
+			$data = explode( "\n", $data );
+		
+		//php 5.3+
+		if ( function_exists( 'str_getcsv' ) ) {
+			
+			foreach ( $data as &$line )
+				$line = str_getcsv( $line );
+		
+		//php 5.2
+		// fgetcsv needs a file handle, 
+		// so write the string to a temp file before parsing	
+		} else {
+			
+			$fh = tmpfile();
+			fwrite( $fh, implode( "\n", $data ) );
+			fseek( $fh, 0 );
+			$data = array();
+			
+			while( $line = fgetcsv( $fh ) )
+				$data[] = $line;
+			
+			fclose( $fh );
+			
+		}
+		
+		$presets = array();
+
+		//build preset objects and stuff into keyed array
+		foreach ( $data as $line ) {
+
+			$lineObj = new stdClass;
+
+			foreach ( $this->keys as $id => $key )
+				$lineObj->$key = $line[ $id ];	
+
+			$presets[ $lineObj->theme ] = $lineObj;
+
+		}
+		
+		return $presets;
+		
 	}
 
 
@@ -394,6 +461,8 @@ class Infinite_Scroll_Presets_Table extends WP_List_Table {
 	 * @return string the HTML to display
 	 */
 	function column_theme( $item ) {
+		global $infinite_scroll;
+
 		$s = '<strong><a href="#" class="theme-name">' . $item->theme . '</a></strong>';
 		$s .= '<div class="edit edit-link" style="visibility:hidden;"><a href="#">' . __( 'Edit', 'infinite-scroll' ) . '</a> | <span class="delete"><a href="#">' . __( 'Delete', 'infinite-scroll' ) . '</a></span></div>';
 		$s .= '<div class="save save-link" style="display:none; padding-top:5px;"><a href="#" class="button-primary">' . __( 'Save', 'infinite-scroll' ) . '</a> <a href="#" class="cancel">' . __( 'Cancel', 'infinite-scroll' ) . '</a> <img class="loader" style="display:none;" src="'. admin_url( '/images/loading.gif' ) .'" /></div>';
@@ -436,12 +505,16 @@ class Infinite_Scroll_Presets_Table extends WP_List_Table {
 		$themes = get_themes();
 
 		foreach ( $themes as $theme => $theme_data ) {
-
-			$theme = strtolower( $theme_data['Name'] );
-
+			
 			if ( array_key_exists( $theme, $data) )
 				continue;
-
+			
+			//check for parent theme's preset, if any
+			if ( $preset = $infinite_scroll->presets->get_preset( $theme ) ) {
+				$data[ $theme ] = $preset;
+				continue;
+			}
+			
 			$themeObj = new stdClass;
 
 			foreach ( $infinite_scroll->presets->keys as $key )
@@ -470,6 +543,6 @@ class Infinite_Scroll_Presets_Table extends WP_List_Table {
 			) );
 
 	}
-
+	
 
 }
