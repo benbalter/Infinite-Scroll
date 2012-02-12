@@ -26,6 +26,17 @@ Features:
 
 Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 
+## Screenshots ##
+
+### 1. CSS Selector (theme) configuration options ###
+1. ![CSS Selector (theme) configuration options](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-1.png)
+
+### 2. Text and image options (to display as additional posts load) ###
+2. ![Text and image options (to display as additional posts load)](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-2.png)
+
+### 3. Edit theme presets screen ###
+3. ![Edit theme presets screen](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-3.png)
+
 ## Changelog ##
 
 ### 2.5 ###
@@ -164,12 +175,6 @@ Use plugins_url to determine plugin url
 
 ### 1.0 ###
 * June 29 - 1.0 release.
-
-## Screenshots ##
-
-1. ![CSS Selector (theme) configuration options](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-1.png)
-2. ![Text and image options (to display as additional posts load)](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-2.png)
-3. ![Edit theme presets screen](https://github.com/benbalter/Infinite-Scroll/raw/develop/screenshot-3.png)
 
 ## Frequently Asked Questions ##
 
