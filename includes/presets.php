@@ -25,7 +25,7 @@
 class Infinite_Scroll_Presets {
 
 	private $parent;
-//	public $preset_url        = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/presetDB.csv.php';
+//	public $preset_url        = 'http://plugins.svn.wordpress.org/infinite-scroll/branches/PresetDB/presets.csv';
 	public $preset_url		  = 'https://raw.github.com/benbalter/Infinite-Scroll/presetDB/presets.csv';
 	public $custom_preset_key = 'infinite_scroll_presets';
 	public $ttl               = 86400; //TTL of transient cache in seconds, 1 day = 86400 = 60*60*24
