@@ -1,4 +1,4 @@
-inove,#main,"#main div.post",#pagenavi,"#pagenavi span.older a:first"
-twentyten,#content,div.navigation,"#content  div.post","div.navigation a:first"
-twentyeleven,#content,#nav-below,"#content article.post","#nav-below .nav-previous a:first"
-atahualpa,td#middle,div.navigation-bottom,"td#middle div.post","div.newer a:link"
+iNove,#main,"#main div.post",#pagenavi,"#pagenavi span.older a:first"
+"Twenty Ten",#content,div.navigation,"#content  div.post","div.navigation a:first"
+"Twenty Eleven",#content,#nav-below,"#content article.post","#nav-below .nav-previous a:first"
+Atahualpa,td#middle,div.navigation-bottom,"td#middle div.post","div.newer a:link"
