@@ -64,6 +64,14 @@ class Infinite_Scroll_Options {
 
 		}
 		
+		//handle image resets
+		if ( isset( $_POST[ 'reset_default_image'] ) )
+			$options['img'] = $this->defaults['img'];
+		
+		//pull existing image if none is given
+		if ( empty( $options['img'] ) ) 
+			$options['img']  = $this->img;
+					
 		return apply_filters( $this->parent->prefix . 'options_validate', $options );
 
 	}

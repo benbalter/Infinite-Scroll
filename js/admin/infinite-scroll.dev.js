@@ -1,26 +1,19 @@
 jQuery(document).ready(function( $) {
 
+	//open upload dialog
 	$('#upload_image_button').click(function() {
 		formfield = $('#upload_image').attr('name');
-	 	tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true&infinite_scroll=true');
+	 	tb_show('', 'media-upload.php?type=image&infinite_scroll=true&TB_iframe=true');
 	 	return false;
 	});
 	
+	//close upload dialog CB
+	//overrides native WP function
 	window.send_to_editor = function(html) {
-	 	imgurl = $('img',html).attr('src');
-	 	$('#upload_image').val(imgurl);
+	 	$('#upload_image').val( html );
 	 	tb_remove();
 	}
-	
-	//backwards compatibility for pre, 3.3 versions
-	//variables are passed as globals and jQuery event is triggered inline
-	$(document).bind('imageUpload', function() {
-
-		//call 3.3+ post upload callback
-		postImageUpload();
-
-	});
-	
+		
 	//list table hover
 	$('#the-list td').hover( 
 		function() { $(this).children('.edit-link').css('visibility', 'visible'); },
@@ -112,37 +105,11 @@ jQuery(document).ready(function( $) {
 		
 	});
 	
-	bindPostImageUploadCB();
-	 
-});
-
-//registers our callback with plupload on media-upload.php
-function bindPostImageUploadCB() {
-		
-	//prevent errors pre-3.3
-	if ( typeof uploader == 'undefined' )
-		return;
-	
-	uploader.bind( 'FileUploaded', function( up, file, response ) {
-	
-	console.log( up, file, response );
-					
-		//if error, kick
-		if ( response.response.match('media-upload-error') )
-			return;
-					
-		postImageUpload( file, response.response );
-					
+	//reset to default image
+	$('#use_default').click( function(event) {
+		event.preventDefault();
+		$('#infinite_scroll_form').append( '<input type="hidden" name="reset_default_image" value="1" />' ).submit();
+		return false;
 	});
-
-}
-
-function postImageUpload( file, response ) {
-	console.log ( response );
-	console.log( jQuery( 'input' ) );
-	jQuery( '#send[' + response + ']' ).click();
-	console.log( jQuery( '#send[' + response + ']' ) );
-	
-	//console.log( url );
-
-}
+		 
+});

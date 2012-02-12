@@ -6,7 +6,7 @@
 ?>
 <div class="wrap">
 	<h2><?php _e( 'Infinite Scroll Options', 'infinite-scroll' ); ?></h2>
-<form method="post" action="options.php" id="infite_scroll_form">
+<form method="post" action="options.php" id="infinite_scroll_form">
 <?php settings_errors(); ?>
 <?php settings_fields( $this->parent->slug_ ); ?>
 <p class="description"><?php _e( 'Infinite scroll uses <a href="http://www.w3.org/TR/CSS2/selector.html">CSS selectors</a> to identify various parts of your site\'s unique theme. In most cases, identifying each of your theme\'s elements below simply requires entering either the element\'s ID indicated with a hashmark, (<em>e.g.,</em><code>#content</code>), or the element\'s class indicated by a period, (<em>e.g.,</em><code>.post</code>). For more information, please see <a href="http://docs.jquery.com/Selectors">jQuery\'s CSS Selector documentation</a>.', 'infinite-scroll' ); ?></p>
@@ -77,8 +77,11 @@
 		<td>
 			<?php _e( 'Current Image:', 'infinite-scroll' ); ?> <img src="<?php echo esc_attr( $this->parent->options->img ); ?>" alt="<?php _e( 'Current Loading Image', 'infinite-scroll' ); ?>" /><br />
 			<?php _e( 'New Image:', 'infinite-scroll' ); ?>
-			<input id="upload_image" type="text" size="36" name="infinite_scrool[img]" value="" />
-			<input id="upload_image_button" type="button" value="<?php _e( 'Upload New Image', 'infinite-scroll' ); ?>" /><br />
+			<input id="upload_image" type="text" size="36" name="infinite_scroll[img]" value="" />
+			<input id="upload_image_button" type="button" value="<?php _e( 'Upload New Image', 'infinite-scroll' ); ?>" /> <?php if ( $this->parent->options->img != $this->parent->options->defaults['img'] ) { ?>
+		( <a href="#" id="use_default"><?php _e( 'Use Default', 'infinite-scroll' ); ?></a> )
+		<?php } ?>
+		<br />
 			<span class="description"><?php _e( 'URL of existing or uploaded image to display as new posts are retrieved', 'infinite-scroll' ); ?></span>
 		</td>
 	</tr>
