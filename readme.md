@@ -43,7 +43,8 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Plugin completely rewritten from the bottom up
 * **Note: you will need to manually reactivate this plugin after upgrading**  
 * Minimum WordPress version required now to **3.2**
-* Added support for internationalization
+* Added support for internationalization (see FAQ for information on translating)
+* Added support for custom post types (now works on all pages but `is_singular()`)
 * Options screens significantly simplified with additional help text
 * Presets screen now uses standard WordPress administrative interface
 * Changes to presets are now made inline; saved via AJAX without page reload
