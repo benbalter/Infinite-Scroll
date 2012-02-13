@@ -44,10 +44,11 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Community contributed CSS selector presets are now stored in the database allowing for plugin directory to be unwritable (security enhancement)
 * Prompts users to default to CSS selector preset when available
 * Presets now support child themes
-* Community contributed CSS selected asynchronously update daily (performance enhancement)
+* Community contributed CSS selectors now stored as standard CSV and asynchronously update daily (performance and compatibility enhancement)
 * Site (or network) specific CSS selector presets are now stored in the database (security enhancement)
 * CSS Preset updater now uses WP_HTTP class (compatibility enhancement)
 * Javascript file now served directly to user (rather than proxied via PHP) to allow for browser caching, minification, serving via CDN, and better integration with caching plugins (performance enhancement)
+* Javascript options stored natively in database and passed directly to script via WordPress's `wp_localize_script` function (performance and customizability enhancement)
 * No longer relies on deprecated user levels to determine permissions
 * Default loading and fished messages changed
 * Fixes for error and warnings when run with `WP_DEBUG` enabled
