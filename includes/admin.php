@@ -41,6 +41,7 @@ class Infinite_Scroll_Admin {
 
 		//toggle presets page
 		$file = isset( $_GET['manage-presets'] ) ? 'manage-presets' : 'options';
+		$file = isset( $_GET['submit'] ) ? 'submit' : $file;
 
 		require dirname( $this->parent->file ) . '/templates/' . $file . '.php';
 	}

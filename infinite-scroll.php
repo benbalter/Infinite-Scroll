@@ -33,12 +33,14 @@ License: GPL3
 require_once dirname( __FILE__ ) . '/includes/options.php';
 require_once dirname( __FILE__ ) . '/includes/admin.php';
 require_once dirname( __FILE__ ) . '/includes/presets.php';
+require_once dirname( __FILE__ ) . '/includes/submit.php';
 
 class Infinite_Scroll {
 
 	static $instance;
 	public $options;
 	public $admin;
+	public $submit;
 	public $name      = 'Infinite Scroll'; //Human-readable name of plugin
 	public $slug      = 'infinite-scroll'; //plugin slug, generally base filename and in url on wordpress.org
 	public $slug_     = 'infinite_scroll'; //slug with underscores (PHP/JS safe)
@@ -56,6 +58,7 @@ class Infinite_Scroll {
 		$this->admin   = new Infinite_Scroll_Admin( &$this );
 		$this->options = new Infinite_Scroll_Options( &$this );
 		$this->presets = new Infinite_Scroll_Presets( &$this );
+		$this->submit = new Infinite_Scroll_Submit( &$this );
 
 		//upgrade db
 		add_action( 'admin_init', array( &$this, 'upgrade_check' ) );

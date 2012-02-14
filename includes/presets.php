@@ -416,6 +416,64 @@ class Infinite_Scroll_Presets {
 		return $presets;
 		
 	}
+	
+	/**
+	 * Return object representing current theme's selectors
+	 * @return object the same as would be returned from get_preset()
+	 */
+	function current_selectors() {
+		
+		$theme = new stdClass();
+		foreach ( $this->keys as $key )
+			$theme->$key = $this->parent->options->$key;
+			
+		$theme->theme = get_current_theme();
+			
+		return $theme;
+		
+	}
+	
+	/**
+	 * Export CSS Selectors as CSV
+	 * @param bool $all (optional) whether to include community selectors in output
+	 * @return string CSV of selectors
+	 */
+	function export( $all = false ) {
+	
+		$presets = array();
+		
+		//if the current theme is not a known preset or they want all
+		if ( !$this->get_preset( get_current_theme() ) || $all )
+			$presets[ get_current_theme() ] = $this->current_selectors();
+
+		//user has access to global custom presets
+		if ( is_multisite() && is_super_admin() ) {
+		
+			if ( $custom = $this->get_custom_presets() );
+				$presets = array_merge( $presets, $custom );
+				
+		}
+		
+		//include community presets, if asked
+		if ( $all )
+			$presets = array_merge( $this->get_presets(), $presets );
+		
+		asort( $presets );
+		
+		//workaround because fputcsv needs a file handle by default
+		$fh = tmpfile();
+		$length = 0;
+				
+		foreach ( $presets as &$preset )
+			$length += fputcsv( $fh, (array) $preset );
+		
+		fseek( $fh, 0 );
+		$csv = fread( $fh, $length );
+		fclose( $fh );
+		
+		return $csv;
+		
+	}
 
 
 }
@@ -543,6 +601,5 @@ class Infinite_Scroll_Presets_Table extends WP_List_Table {
 			) );
 
 	}
-	
 
 }

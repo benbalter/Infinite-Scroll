@@ -48,6 +48,7 @@
 			<span class="description"><?php _e( 'Div containing an individual post', 'infinite-scroll' ); ?></span>
 		</td>
 	</tr>
+	<?php $this->parent->submit->prompt(); ?>
 	<tr valign="top">
 		<th scope="row">
 			<?php _e( 'Loading Message', 'infinite-scroll' ); ?>		

@@ -111,5 +111,18 @@ jQuery(document).ready(function( $) {
 		$('#infinite_scroll_form').append( '<input type="hidden" name="reset_default_image" value="1" />' ).submit();
 		return false;
 	});
+	
+	//hide submit button
+	$('#hide-submit').click( function(event){
+		event.preventDefault();
+		$.ajax({
+			url: ajaxurl + '?action=' + submit.action + '&' + submit.nonce + '=' + $('#'+submit.nonce).val(),
+		    success: function() { $('tr#submit').fadeOut(); }
+		});
+		return false;
+	});
+	
+	//submit textarea select
+	$('textarea#submit').select();
 		 
 });
