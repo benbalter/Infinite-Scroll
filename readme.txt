@@ -36,6 +36,7 @@ Full information on [infinite-scroll.com](http://www.infinite-scroll.com)
 * Added support for custom post types (now works on all pages but `is_singular()`)
 * Options screens significantly simplified with additional help text
 * Presets screen now uses standard WordPress administrative interface
+* Ability to submit your theme's CSS Selectors to the community CSS selector database to aid others with installation
 * Changes to presets are now made inline; saved via AJAX without page reload
 * Added additional API endpoints for developers to modify and customize plugin behavior
 * Loading image now uses native WordPress uploader and can accept arbitrary URL or image from media gallery
