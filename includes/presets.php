@@ -67,7 +67,7 @@ class Infinite_Scroll_Presets {
 	function get_presets() {
 
 		//check cache
-		if ( 0 && $cache = get_transient( $this->parent->prefix . 'presets' ) )
+		if ( $cache = get_transient( $this->parent->prefix . 'presets' ) )
 			return apply_filters( $this->parent->prefix . 'presets', $cache );
 
 		$data = wp_remote_get( $this->preset_url );
