@@ -468,6 +468,9 @@ class Infinite_Scroll_Presets {
 		foreach ( $presets as &$preset )
 			$length += fputcsv( $fh, (array) $preset );
 		
+		if ( $length == 0 )
+			return false;
+		
 		fseek( $fh, 0 );
 		$csv = fread( $fh, $length );
 		fclose( $fh );
