@@ -21,7 +21,7 @@ class Infinite_Scroll_Options {
 		$this->parent = &$parent;
 
 		add_action( 'admin_init', array( &$this, 'options_init' ) );
-		add_action( $this->parent->prefix . 'options', array( &$this, 'default_options_filter' ), 20 );
+		add_filter( $this->parent->prefix . 'options', array( &$this, 'default_options_filter' ), 20 );
 
 	}
 
@@ -127,7 +127,6 @@ class Infinite_Scroll_Options {
 	 */
 	function default_options_filter( $options ) {
 
-		$this->defaults[ 'db_version' ] = $this->parent->version;
 		$options = wp_parse_args( $options, $this->defaults );
 		wp_cache_set( 'options', $options, $this->parent->slug );
 		return $options;

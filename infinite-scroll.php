@@ -224,6 +224,10 @@ class Infinite_Scroll {
 		$this->options->set_options( $new );
 		delete_option( 'infscr_options' );
 
+		//migrate presets
+		if ( $from < 2.5 )
+			$this->presets->migrate();		
+
 	}
 
 

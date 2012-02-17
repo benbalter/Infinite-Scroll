@@ -478,6 +478,27 @@ class Infinite_Scroll_Presets {
 		return $csv;
 		
 	}
+	
+	/**
+	 * Migrates legacy csv.php files to 2.5's custom presets format
+	 * @uses parse_legacy_csv
+	 */
+	function migrate() {
+
+		//no preset file to migrate
+		if ( !file_exists( dirname( $this->parent->file ) .  '/PresetDB.csv.php' ) )
+			return;
+		
+		$data = file_get_contents(  dirname( $this->parent->file ) .  '/PresetDB.csv.php' );
+		$presets = $this->parse_legacy_csv( $data );
+		
+		//this wiill override any existing presets, 
+		// but is okay as is only being fired when no presets exist
+		$this->set_custom_presets( $presets );
+		
+		return $presets;
+
+	}
 
 
 }
