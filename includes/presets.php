@@ -156,11 +156,12 @@ class Infinite_Scroll_Presets {
 	function preset_prompt() {
 		$theme = get_current_theme();
 		$preset = $this->get_preset( $theme );
-		
+
 		if ( !$preset )
 			return;
 
 		unset( $preset->theme );
+		unset( $preset->parentPreset );
 
 		//if they are already using the preset, don't prompt
 		$using_default = true;
