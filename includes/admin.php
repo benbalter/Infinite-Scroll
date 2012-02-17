@@ -112,7 +112,7 @@ class Infinite_Scroll_Admin {
 	 * @param string $field the field to load the editor for
 	 */
 	function editor( $field ) {
-		
+
 		//3.3
 		if ( function_exists( 'wp_editor' ) )
 			wp_editor( $this->parent->options->loading[ $field ], "infinite_scroll[loading][{$field}]", array( 'media_buttons' => false, 'textarea_rows' => 5, 'teeny' => true ) );

@@ -120,7 +120,8 @@ class Infinite_Scroll {
 
 		wp_enqueue_script( $this->slug, plugins_url( $file, __FILE__ ), array( 'jquery' ), $this->version, true );
 
-		wp_localize_script( $this->slug, $this->slug_, $this->options->get_options() );
+		$options = apply_filters( $this->prefix . 'js_options', $this->options->get_options() );
+		wp_localize_script( $this->slug, $this->slug_, $options );
 
 	}
 
@@ -213,13 +214,18 @@ class Infinite_Scroll {
 		}
 		
 		//regardless of which upgrade we did, move loading string to array
-		$new['loading'] = array();
+		$new['loading'] = array( );
+		
 		foreach ( array( 'finishedMsg', 'msgText' ) as $field ) {
 			if ( isset( $new[$field] ) ) {
 				$new['loading'][$field] = $new[$field];
 				unset( $new[$field] );
 			}
 		}
+		
+		//don't pass an empty array so the default filter can properly set defaults
+		if ( empty( $new['loading'] ) )
+			unset( $new['loading'] );
 
 		$this->options->set_options( $new );
 		delete_option( 'infscr_options' );

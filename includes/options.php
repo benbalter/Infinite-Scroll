@@ -22,6 +22,7 @@ class Infinite_Scroll_Options {
 
 		add_action( 'admin_init', array( &$this, 'options_init' ) );
 		add_filter( $this->parent->prefix . 'options', array( &$this, 'default_options_filter' ), 20 );
+		add_filter( $this->parent->prefix . 'js_options', array( &$this, 'db_version_filter' ) );
 
 	}
 
@@ -127,7 +128,7 @@ class Infinite_Scroll_Options {
 	 */
 	function default_options_filter( $options ) {
 
-		$options = wp_parse_args( $options, $this->defaults );
+		$options = wp_parse_args( $options,  $this->defaults );
 		wp_cache_set( 'options', $options, $this->parent->slug );
 		return $options;
 
@@ -176,6 +177,13 @@ class Infinite_Scroll_Options {
 		return update_option( $this->parent->slug_, $options );
 
 	}
-
+	
+	/**
+	 * Don't output db_version to front end when passing args to javascript function
+	 */
+	function db_version_filter( $options ) {
+		unset( $options['db_version'] );
+		return $options;
+	}
 
 }
