@@ -16,7 +16,7 @@
 		<li><?php _e( 'Add a message, if you\'d like (optional)', 'infinit-scroll' ); ?></li>
 		<li><?php _e( 'Click "<code>Post</code>"', 'infinite-scroll' ); ?></li>
 	</ol>
-	<strong><?php _e( 'Your CSS Selectors:', 'infinite-scroll' ); ?></strong>
+	<strong><?php echo ( isset( $_GET['all'] ) ) ? __( 'All CSS Selectors:', 'infinite-scroll' ) : __( 'Your CSS Selectors:', 'infinite-scroll' ); ?></strong>
 	<textarea style="width: 100%; height: 200px;" id="submit">
 &lt;blockquote>
 <?php echo $this->parent->presets->export( isset( $_GET['all'] ) ); ?>
