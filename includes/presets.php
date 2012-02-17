@@ -67,7 +67,7 @@ class Infinite_Scroll_Presets {
 	function get_presets() {
 
 		//check cache
-		if ( $cache = get_transient( $this->parent->prefix . 'presets' ) )
+		if ( 0 && $cache = get_transient( $this->parent->prefix . 'presets' ) )
 			return apply_filters( $this->parent->prefix . 'presets', $cache );
 
 		$data = wp_remote_get( $this->preset_url );
@@ -380,9 +380,9 @@ class Infinite_Scroll_Presets {
 		//php 5.3+
 		if ( function_exists( 'str_getcsv' ) ) {
 			
-			foreach ( $data as &$line )
+			foreach ( $data as &$line ) 
 				$line = str_getcsv( $line );
-		
+			
 		//php 5.2
 		// fgetcsv needs a file handle, 
 		// so write the string to a temp file before parsing	
@@ -399,11 +399,11 @@ class Infinite_Scroll_Presets {
 			fclose( $fh );
 			
 		}
-		
+
 		$presets = array();
 
 		//build preset objects and stuff into keyed array
-		foreach ( $data as $line ) {
+		foreach ( $data as &$line ) {
 
 			$lineObj = new stdClass;
 
@@ -413,7 +413,7 @@ class Infinite_Scroll_Presets {
 			$presets[ $lineObj->theme ] = $lineObj;
 
 		}
-		
+
 		return $presets;
 		
 	}
@@ -499,6 +499,22 @@ class Infinite_Scroll_Presets {
 		return $presets;
 
 	}
+	
+	/**
+	 * Determines whether a given theme is installed
+	 * @param string|object $theme either the theme name or the preset object
+	 * @return bool true if insalled, otherwise false
+	 */
+	function theme_installed( $theme ) {
+		$themes = get_themes();
+		
+		//allow objects or strings
+		if ( is_object( $theme ) )
+			$theme = $theme->theme;
+		
+		return array_key_exists( $theme, $themes );
+		
+	}
 
 
 }
@@ -583,7 +599,10 @@ class Infinite_Scroll_Presets_Table extends WP_List_Table {
 		$this->_column_headers = array($columns, $hidden, $sortable);
 
 		$data = $infinite_scroll->presets->get_presets();
-
+		
+		//only display installed themes
+		$data = array_filter( $data, array( &$infinite_scroll->presets, 'theme_installed' ) );
+		
 		//merge in themes
 		$themes = get_themes();
 
