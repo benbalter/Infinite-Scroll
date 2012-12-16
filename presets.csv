@@ -4,3 +4,4 @@ twentyeleven,#content,#nav-below,"#content article.post","#nav-below .nav-previo
 atahualpa,td#middle,div.navigation-bottom,"td#middle div.post","div.newer a:link"
 twentytwelve,#content,"#content nav",.hentry,"#content nav a"
 Avenue,"#main .archive",.pagination,"#main .archive .post",".pagination .current + .inactive"
+litepress,#content,.navigation,.recent-post,".navigation .next"
