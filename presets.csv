@@ -5,3 +5,4 @@ atahualpa,td#middle,div.navigation-bottom,"td#middle div.post","div.newer a:link
 twentytwelve,#content,"#content nav",.hentry,"#content nav a"
 Avenue,"#main .archive",.pagination,"#main .archive .post",".pagination .current + .inactive"
 litepress,#content,.navigation,.recent-post,".navigation .next"
+extranews,#content,div.navigation,"#content div.post","div.navigation a:first"
