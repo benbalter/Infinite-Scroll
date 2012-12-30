@@ -7,3 +7,4 @@ Avenue,"#main .archive",.pagination,"#main .archive .post",".pagination .current
 litepress,#content,.navigation,.recent-post,".navigation .next"
 extranews,#content,div.navigation,"#content div.post","div.navigation a:first"
 wiki,.content,.pagination,.post,.next
+gridlocked,#primary,#index-navigation,"#content .hentry","#index-navigation .nav-next a:first"
