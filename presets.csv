@@ -11,3 +11,4 @@ gridlocked,#primary,#index-navigation,"#content .hentry","#index-navigation .nav
 picolight,#content,div.navigation,.post,"div.navigation div.alignleft a"
 rustik,#content,#nav-below,.post,"#nav-below a:first"
 weaver-ii-pro,#content,#nav-below,"#content article.post","#nav-below .nav-previous a:first"
+glassical,#content,#wp_pagenavi,.post,#wp_pagenavi:first
