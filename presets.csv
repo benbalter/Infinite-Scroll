@@ -13,3 +13,5 @@ rustik,#content,#nav-below,.post,"#nav-below a:first"
 weaver-ii-pro,#content,#nav-below,"#content article.post","#nav-below .nav-previous a:first"
 glassical,#content,#wp_pagenavi,.post,#wp_pagenavi:first
 swift,#content,div.navigation,#content,"div.navigation a:first"
+befree,#main.col-left,.nav-entries,.border-post-second,".nav-entries a"
+launch,#primary.hfeed,div.navigation,.post,".nav-next a"
