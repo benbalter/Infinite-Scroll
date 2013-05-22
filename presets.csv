@@ -15,3 +15,13 @@ glassical,#content,#wp_pagenavi,.post,#wp_pagenavi:first
 swift,#content,div.navigation,#content,"div.navigation a:first"
 befree,#main.col-left,.nav-entries,.border-post-second,".nav-entries a"
 launch,#primary.hfeed,div.navigation,.post,".nav-next a"
+shaken-grid-premium,#content,#nav-below,.post,"#nav-below a:first" twentyeleven,#content,#nav-below,"#content article.post","#nav-below .nav-previous a:first"
+gonzo,#omc-main,.pagination,#omc-main,".pagination .inactive"
+thematic,#content,footer.below,article.post,a.nextpostslink
+pagelines,#postloop,#pagination,"#postloop .copy-pad article","#pagination .copy-pad .page-nav-default .previous-entries a:first"
+Gaming,#content,#nav-below,.post,"#nav-below a:first"
+cleanmag,#content,#nav-below,.post,"#nav-below a:first"
+platform,#pagelines_content,"#pagelines_content .page-nav-default",.post,"#pagelines_content .page-nav-default a"
+twentythirteen,#content,#nav-below,.post,"#nav-below a:first"
+mockfive,#content,div.navigation,"#content div.post","div.navigation a:first"
+h5,#masonary,.wp-pagenavi,.box,".wp-pagenavi .nextpostslink"
